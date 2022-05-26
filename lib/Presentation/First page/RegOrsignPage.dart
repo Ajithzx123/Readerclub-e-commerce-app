@@ -2,6 +2,8 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:readerclub/Presentation/RegisterScreen/registerScreen.dart';
 import 'package:sizer/sizer.dart';
 
 class RegOrSigninPage extends StatelessWidget {
@@ -47,7 +49,9 @@ class RegOrSigninPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   FadeInLeft(
-                    child: _CustomButton(onPressed: () {}, text: 'Register'),
+                    child: _CustomButton(onPressed: () {
+                      Navigator.push(context, PageTransition(child: RegisterScreen(), type: PageTransitionType.fade));
+                    }, text: 'Register'),
                   ),
                   FadeInRight(
                       child: _CustomButton(onPressed: () {}, text: 'Sign In'))
