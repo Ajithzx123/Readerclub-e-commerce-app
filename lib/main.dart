@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:readerclub/Presentation/Splash%20Screen/splash%20screen.dart';
+import 'package:readerclub/Presentation/First%20page/Splash%20Screen/splash%20screen.dart';
 import 'package:sizer/sizer.dart';
 
 void main(List<String> args) {

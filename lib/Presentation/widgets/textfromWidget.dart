@@ -1,10 +1,10 @@
-
 import 'package:flutter/material.dart';
 import 'package:sizer/sizer.dart';
 
 class CustomText extends StatelessWidget {
   const CustomText({
     Key? key,
+    required this.validator,
     required this.textinputaction,
     required this.textinputtype,
     required this.obscure,
@@ -14,6 +14,7 @@ class CustomText extends StatelessWidget {
 
   final TextInputType? textinputtype;
   final bool? obscure;
+  final FormFieldValidator validator;
   final TextEditingController controller;
   final String hinttext;
   final TextInputAction textinputaction;
@@ -24,19 +25,26 @@ class CustomText extends StatelessWidget {
       keyboardType: textinputtype,
       obscureText: obscure ?? false,
       controller: controller,
+      validator: validator,
       textInputAction: textinputaction,
       decoration: InputDecoration(
-        hintText: hinttext,
-        hintStyle: TextStyle(fontSize: 12.sp),
-        enabledBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.black, width: .3.w),
-          borderRadius: BorderRadius.circular(25.0),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderSide: BorderSide(color: Colors.black, width: .3.w),
-          borderRadius: BorderRadius.circular(25.0),
-        ),
-      ),
+          hintText: hinttext,
+          hintStyle: TextStyle(fontSize: 12.sp),
+          errorBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.black),
+              borderRadius: BorderRadius.circular(25)),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.black, width: .3.w),
+            borderRadius: BorderRadius.circular(25.0),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.black, width: .3.w),
+            borderRadius: BorderRadius.circular(25.0),
+          ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.black, width: .3.w),
+            borderRadius: BorderRadius.circular(25.0),
+          )),
     );
   }
 }
