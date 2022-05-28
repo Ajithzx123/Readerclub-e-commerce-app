@@ -3,49 +3,51 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:readerclub/Presentation/First%20page/Login%20page/LoginPage.dart';
-import 'package:readerclub/Presentation/First%20page/Reg%20or%20sign/RegOrsignPage.dart';
-import 'package:readerclub/Presentation/First%20page/RegisterScreen/registerScreen.dart';
+import 'package:readerclub/Presentation/First%20sessions/Reg%20or%20sign/RegOrsignPage.dart';
+import 'package:readerclub/Presentation/First%20sessions/RegisterScreen/registerScreen.dart';
+import 'package:readerclub/Presentation/User%20session/home%20screen/homescreen.dart';
 import 'package:readerclub/Presentation/widgets/textfromWidget.dart';
 import 'package:sizer/sizer.dart';
 
-class AdminLogin extends StatelessWidget {
-  AdminLogin({Key? key}) : super(key: key);
+class LoginPage extends StatelessWidget {
+  LoginPage({Key? key}) : super(key: key);
 
-  TextEditingController usernameController = TextEditingController();
-  TextEditingController passwordController = TextEditingController();
+  TextEditingController usernamecontroller = TextEditingController();
+  TextEditingController passwordcontroller = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      // appBar: AppBar(
+      //   backgroundColor: Colors.white,
+      //   elevation: 0,
+      //   iconTheme: IconThemeData(color: Colors.black),
+      // ),
       body: SafeArea(
-        child: ListView(children: [
-          Align(
-              alignment: Alignment.topLeft,
-              child: Padding(
-                padding: EdgeInsets.all(2.0.w),
-                child: IconButton(
-                  icon: const Icon(Icons.arrow_back),
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        PageTransition(
-                            child: const RegOrSigninPage(),
-                            type: PageTransitionType.fade));
-                  },
-                ),
-              )),
-          Padding(
+        child: SingleChildScrollView(
+          child: Padding(
             padding: EdgeInsets.only(left: 10.w, right: 10.w),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Align(
+                    alignment: Alignment.centerLeft,
+                    child: IconButton(
+                      icon: const Icon(Icons.arrow_back),
+                      onPressed: () {
+                        Navigator.push(
+                            context,
+                            PageTransition(
+                                child: const RegOrSigninPage(),
+                                type: PageTransitionType.fade));
+                      },
+                    )),
                 Center(
                   child: FadeInLeft(
                     child: LottieBuilder.asset(
                       "Assets/login/ideabook.json",
-                      height: 30.h,
+                      height: 25.h,
                     ),
                   ),
                 ),
@@ -55,16 +57,6 @@ class AdminLogin extends StatelessWidget {
                     "Welcome Back",
                     style:
                         TextStyle(fontSize: 25.sp, fontWeight: FontWeight.w900),
-                  ),
-                ),
-                SizedBox(
-                  height: 1.5.h,
-                ),
-                FadeInRight(
-                  child: Text(
-                    "Sign In as Admin",
-                    style:
-                        TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w700),
                   ),
                 ),
                 SizedBox(height: 4.h),
@@ -79,7 +71,7 @@ class AdminLogin extends StatelessWidget {
                       textinputaction: TextInputAction.next,
                       textinputtype: TextInputType.name,
                       obscure: false,
-                      controller: usernameController,
+                      controller: usernamecontroller,
                       hinttext: "Username"),
                 ),
                 SizedBox(height: 2.h),
@@ -96,7 +88,7 @@ class AdminLogin extends StatelessWidget {
                       textinputaction: TextInputAction.done,
                       textinputtype: TextInputType.name,
                       obscure: true,
-                      controller: passwordController,
+                      controller: passwordcontroller,
                       hinttext: "Password"),
                 ),
                 SizedBox(height: 1.h),
@@ -110,25 +102,67 @@ class AdminLogin extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(height: 6.h),
+                SizedBox(height: 5.h),
                 Center(
                   child: FadeInLeft(
-                    child: const _CustombuttonLogin(),
+                    child: _CustombuttonLogin(
+                      iconcolor: Colors.white,
+                      cusIcons: Icons.login,
+                      textcolor: Colors.white,
+                      width: 35.w,
+                      text: "Sign In",
+                      onpressed: () {
+                        Navigator.push(
+                            context,
+                            PageTransition(
+                                child: const HomeScreen(),
+                                type: PageTransitionType.fade));
+                      },
+                      colours: const [
+                        Color.fromRGBO(166, 210, 255, 1),
+                        Color.fromARGB(255, 0, 139, 225)
+                      ],
+                    ),
                   ),
                 ),
-                SizedBox(height: 8.h),
+                SizedBox(height: 2.h),
+                Center(
+                    child: FadeInLeft(
+                  child: Text(
+                    "OR",
+                    style:
+                        TextStyle(fontSize: 12.sp, fontWeight: FontWeight.w600),
+                  ),
+                )),
+                SizedBox(height: 2.h),
+                Center(
+                  child: FadeInRight(
+                    child: _CustombuttonLogin(
+                        cusIcons: Icons.phone_iphone,
+                        iconcolor: Colors.black,
+                        textcolor: Colors.black,
+                        width: 70.w,
+                        text: "Sign In with Phone Number",
+                        onpressed: () {},
+                        colours: const [
+                          Color.fromARGB(255, 222, 222, 222),
+                          Color.fromARGB(255, 227, 227, 227)
+                        ]),
+                  ),
+                ),
+                SizedBox(height: 6.h),
                 Center(
                   child: FadeInDown(
                     child: RichText(
                       text: TextSpan(children: [
                         TextSpan(
-                            text: "Sign In as ",
+                            text: "Dont have any Account ? ",
                             style: TextStyle(
                                 fontSize: 11.sp,
                                 fontWeight: FontWeight.w700,
                                 color: Colors.black)),
                         TextSpan(
-                            text: "User",
+                            text: "Register",
                             style: TextStyle(
                                 fontSize: 12.sp,
                                 fontWeight: FontWeight.bold,
@@ -138,7 +172,7 @@ class AdminLogin extends StatelessWidget {
                                 Navigator.push(
                                     context,
                                     PageTransition(
-                                        child:  LoginPage(),
+                                        child: RegisterScreen(),
                                         type: PageTransitionType.fade));
                               })
                       ]),
@@ -148,43 +182,59 @@ class AdminLogin extends StatelessWidget {
               ],
             ),
           ),
-        ]),
+        ),
       ),
     );
   }
 }
 
 class _CustombuttonLogin extends StatelessWidget {
+  final String text;
+  final VoidCallback onpressed;
+  final List<Color> colours;
+  final double width;
+  final Color textcolor;
+  final Color iconcolor;
+
+  final IconData? cusIcons;
   const _CustombuttonLogin({
     Key? key,
+    this.cusIcons,
+    required this.iconcolor,
+    required this.textcolor,
+    required this.width,
+    required this.text,
+    required this.onpressed,
+    required this.colours,
   }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 50.w,
+      width: width,
       height: 7.h,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(30),
-        gradient: const LinearGradient(
+        gradient: LinearGradient(
           begin: Alignment.topCenter,
           end: Alignment.bottomCenter,
-          colors: [
-            Color.fromRGBO(166, 210, 255, 1),
-            Color.fromARGB(255, 0, 139, 225)
-          ],
+          colors: colours,
         ),
       ),
       child: ElevatedButton(
-        onPressed: () {},
+        onPressed: onpressed,
         child: Row(
           children: [
+            Icon(
+              cusIcons,
+              color: iconcolor,
+            ),
             Expanded(
               child: Text(
-                "Sign In",
+                text,
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                    color: Colors.white,
+                    color: textcolor,
                     fontWeight: FontWeight.bold,
                     fontSize: 13.sp),
               ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:readerclub/Presentation/First%20page/Splash%20Screen/splash%20screen.dart';
+import 'package:readerclub/Presentation/First%20sessions/Splash%20Screen/splash%20screen.dart';
+import 'package:readerclub/Presentation/User%20session/home%20screen/homescreen.dart';
 import 'package:sizer/sizer.dart';
 
 void main(List<String> args) {
@@ -17,7 +18,7 @@ class MyApp extends StatelessWidget {
       builder: (BuildContext context, Orientation orientation, DeviceType deviceType) {  
      return  const MaterialApp(
         debugShowCheckedModeBanner: false,
-        home: SplashScreen(),
+        home: HomeScreen(),
       );},
     );
   }

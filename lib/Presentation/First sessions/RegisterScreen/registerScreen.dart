@@ -3,8 +3,9 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:readerclub/Presentation/First%20page/Login%20page/LoginPage.dart';
-import 'package:readerclub/Presentation/First%20page/Reg%20or%20sign/RegOrsignPage.dart';
+import 'package:readerclub/Presentation/First%20sessions/Login%20page/LoginPage.dart';
+import 'package:readerclub/Presentation/First%20sessions/Reg%20or%20sign/RegOrsignPage.dart';
+import 'package:readerclub/Presentation/User%20session/home%20screen/homescreen.dart';
 import 'package:readerclub/Presentation/widgets/textfromWidget.dart';
 import 'package:sizer/sizer.dart';
 
@@ -170,8 +171,9 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                       child: Center(
                                         child: GestureDetector(
                                           onTap: () {
-                                            formKey.currentState!.validate();
-                                            print(pageindex);
+                                           if( formKey.currentState!.validate()){
+                                             Navigator.push(context, PageTransition(child: HomeScreen(), type: PageTransitionType.fade));
+                                           }
                                           },
                                           child: Container(
                                               width: 30.w,

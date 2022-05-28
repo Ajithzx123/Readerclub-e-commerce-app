@@ -3,9 +3,9 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:readerclub/Presentation/First%20page/Login%20page/LoginPage.dart';
-import 'package:readerclub/Presentation/First%20page/RegisterScreen/registerScreen.dart';
-import 'package:readerclub/Presentation/First%20page/admin%20login/adminlogin.dart';
+import 'package:readerclub/Presentation/First%20sessions/Login%20page/LoginPage.dart';
+import 'package:readerclub/Presentation/First%20sessions/RegisterScreen/registerScreen.dart';
+import 'package:readerclub/Presentation/First%20sessions/admin%20login/adminlogin.dart';
 
 import 'package:sizer/sizer.dart';
 
@@ -53,18 +53,26 @@ class RegOrSigninPage extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     FadeInLeft(
-                      child: _CustomButton(onPressed: () {
-                        Navigator.push(context, PageTransition(child: RegisterScreen(), type: PageTransitionType.fade));
-                      }, text: 'Register'),
+                      child: _CustomButton(
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                PageTransition(
+                                    child: RegisterScreen(),
+                                    type: PageTransitionType.fade));
+                          },
+                          text: 'Register'),
                     ),
                     FadeInRight(
-                        child: _CustomButton(onPressed: () {
-                           Navigator.push(
-                                      context,
-                                      PageTransition(
-                                          child: LoginPage(),
-                                          type: PageTransitionType.fade));
-                        }, text: 'Sign In'))
+                        child: _CustomButton(
+                            onPressed: () {
+                              Navigator.push(
+                                  context,
+                                  PageTransition(
+                                      child: LoginPage(),
+                                      type: PageTransitionType.fade));
+                            },
+                            text: 'Sign In'))
                   ],
                 ),
               ),
@@ -87,9 +95,14 @@ class RegOrSigninPage extends StatelessWidget {
                           fontSize: 12.sp,
                           fontWeight: FontWeight.bold,
                           color: Colors.blue),
-                      recognizer: TapGestureRecognizer()..onTap = () {
-                        Navigator.push(context, PageTransition(child: AdminLogin(), type: PageTransitionType.fade));
-                      })
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () {
+                          Navigator.push(
+                              context,
+                              PageTransition(
+                                  child: AdminLogin(),
+                                  type: PageTransitionType.fade));
+                        })
                 ])),
               )
             ],
