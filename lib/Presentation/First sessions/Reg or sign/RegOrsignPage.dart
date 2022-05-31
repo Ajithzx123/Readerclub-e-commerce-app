@@ -1,16 +1,51 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:readerclub/Presentation/First%20sessions/Login%20page/LoginPage.dart';
 import 'package:readerclub/Presentation/First%20sessions/RegisterScreen/registerScreen.dart';
 import 'package:readerclub/Presentation/First%20sessions/admin%20login/adminlogin.dart';
+import 'package:readerclub/logic/nav_bloc/bloc/navbloc_bloc.dart';
 
 import 'package:sizer/sizer.dart';
 
 class RegOrSigninPage extends StatelessWidget {
   const RegOrSigninPage({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocListener<NavblocBloc, NavblocState>(
+      listener: (context, state) {
+        if (state is NavToRegState) {
+          Navigator.push(
+              context,
+              PageTransition(
+                  child:  RegisterScreen(), type: PageTransitionType.fade));
+        }
+        if (state is NavToSingInState) {
+          Navigator.push(
+              context,
+              PageTransition(
+                  child: LoginPage(), type: PageTransitionType.fade));
+        }
+        if (state is NavToAdminState) {
+          Navigator.push(
+              context,
+              PageTransition(
+                  child: AdminLogin(), type: PageTransitionType.fade));
+        }
+      },
+      child: const _Scaffold(),
+    );
+  }
+}
+
+class _Scaffold extends StatelessWidget {
+  const _Scaffold({
+    Key? key,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -55,22 +90,18 @@ class RegOrSigninPage extends StatelessWidget {
                     FadeInLeft(
                       child: _CustomButton(
                           onPressed: () {
-                            Navigator.push(
-                                context,
-                                PageTransition(
-                                    child: RegisterScreen(),
-                                    type: PageTransitionType.fade));
+                            context
+                                .read<NavblocBloc>()
+                                .add(NavToRegScreenEvent());
                           },
                           text: 'Register'),
                     ),
                     FadeInRight(
                         child: _CustomButton(
                             onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  PageTransition(
-                                      child: LoginPage(),
-                                      type: PageTransitionType.fade));
+                              context
+                                  .read<NavblocBloc>()
+                                  .add(NavToSignInScreenEvent());
                             },
                             text: 'Sign In'))
                   ],
@@ -97,11 +128,9 @@ class RegOrSigninPage extends StatelessWidget {
                           color: Colors.blue),
                       recognizer: TapGestureRecognizer()
                         ..onTap = () {
-                          Navigator.push(
-                              context,
-                              PageTransition(
-                                  child: AdminLogin(),
-                                  type: PageTransitionType.fade));
+                          context
+                              .read<NavblocBloc>()
+                              .add(NavToAdminScreenEvent());
                         })
                 ])),
               )
