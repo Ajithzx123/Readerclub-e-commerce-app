@@ -14,5 +14,6 @@ class NavblocBloc extends Bloc<NavblocEvent, NavblocState> {
     on<BackToRegOrSignEvent>((event, emit) => emit(BackToRegorSignstate()));
     on<PrevPageViewEvent>((event, emit) => emit(PrevPageViewState()));
     on<NextPageViewEvent>((event, emit) => emit(NextPageViewState()));
+    on<NavToHomeScrenEvent>((event, emit) => emit(NavToHomeScreenState()));
   }
 }

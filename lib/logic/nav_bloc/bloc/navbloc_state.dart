@@ -18,3 +18,5 @@ class BackToRegorSignstate extends NavblocState {}
 class PrevPageViewState extends NavblocState {}
 
 class NextPageViewState extends NavblocState {}
+
+class NavToHomeScreenState extends NavblocState {}

@@ -102,62 +102,79 @@ class PageViewNextButton extends StatelessWidget {
   }
 }
 
-class RegisterButton extends StatelessWidget {
-  const RegisterButton({
-    Key? key,
-    required this.formKey,
-  }) : super(key: key);
+// class RegisterButton extends StatelessWidget {
+//   const RegisterButton({
+//     Key? key,
+//     required this.formKey,
+//   }) : super(key: key);
 
-  final GlobalKey<FormState> formKey;
+//   final GlobalKey<FormState> formKey;
 
-  @override
-  Widget build(BuildContext context) {
-    return Align(
-      alignment: Alignment.bottomCenter,
-      child: FadeInLeft(
-        child: SizedBox(
-          height: 10.h,
-          child: Center(
-            child: GestureDetector(
-              onTap: () {
-                if (formKey.currentState!.validate()) {
-                  Navigator.push(
-                    context,
-                    PageTransition(
-                      child: HomeScreen(),
-                      type: PageTransitionType.fade,
-                    ),
-                  );
-                }
-              },
-              child: Container(
-                width: 30.w,
-                height: 6.h,
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
-                  gradient: LinearGradient(colors: [
-                    Color.fromRGBO(166, 210, 255, 1),
-                    Color.fromARGB(255, 0, 139, 225)
-                  ]),
-                ),
-                child: Center(
-                  child: Text(
-                    "Register",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.w500,
-                      fontSize: 13.sp,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return Align(
+//       alignment: Alignment.bottomCenter,
+//       child: FadeInLeft(
+//         child: SizedBox(
+//           height: 10.h,
+//           child: Center(
+//             child: GestureDetector(
+//               onTap: () {
+
+
+//                 registerationUser();
+
+
+//                 if (formKey.currentState!.validate()) {
+//                   Navigator.push(
+//                     context,
+//                     PageTransition(
+//                       child: HomeScreen(),
+//                       type: PageTransitionType.fade,
+//                     ),
+//                   );
+//                 }
+//               },
+//               child: Container(
+//                 width: 30.w,
+//                 height: 6.h,
+//                 decoration: const BoxDecoration(
+//                   borderRadius: BorderRadius.all(Radius.circular(20)),
+//                   gradient: LinearGradient(colors: [
+//                     Color.fromRGBO(166, 210, 255, 1),
+//                     Color.fromARGB(255, 0, 139, 225)
+//                   ]),
+//                 ),
+//                 child: Center(
+//                   child: Text(
+//                     "Register",
+//                     style: TextStyle(
+//                       color: Colors.white,
+//                       fontWeight: FontWeight.w500,
+//                       fontSize: 13.sp,
+//                     ),
+//                   ),
+//                 ),
+//               ),
+//             ),
+//           ),
+//         ),
+//       ),
+//     );
+//   }
+
+//   void registerationUser() {
+
+//     var apiurl ="";
+
+//     Map mapData =  {
+//       "name": namecontroller
+//     } 
+
+
+
+//   }
+// }
 
 class SignInAlreadyAccount extends StatelessWidget {
   const SignInAlreadyAccount({

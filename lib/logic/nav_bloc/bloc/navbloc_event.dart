@@ -16,3 +16,5 @@ class BackToRegOrSignEvent extends NavblocEvent {}
 class PrevPageViewEvent extends NavblocEvent {}
 
 class NextPageViewEvent extends NavblocEvent {}
+
+class NavToHomeScrenEvent extends NavblocEvent {}

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -5,7 +7,12 @@ import 'package:page_transition/page_transition.dart';
 import 'package:readerclub/Presentation/First%20sessions/Reg%20or%20sign/RegOrsignPage.dart';
 import 'package:readerclub/Presentation/First%20sessions/RegisterScreen/widget/widgets.dart';
 import 'package:readerclub/logic/nav_bloc/bloc/navbloc_bloc.dart';
+import 'package:readerclub/main.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
+import 'package:http/http.dart' as http;
+
+import '../../User session/home screen/homescreen.dart';
 
 class RegisterScreen extends StatelessWidget {
   RegisterScreen({Key? key}) : super(key: key);
@@ -37,12 +44,10 @@ class RegisterScreen extends StatelessWidget {
                   type: PageTransitionType.fade));
         } else if (state is PrevPageViewState) {
           pageViewcontroller.previousPage(
-              duration: const Duration(milliseconds: 700),
-              curve: Curves.ease);
+              duration: const Duration(milliseconds: 700), curve: Curves.ease);
         } else if (state is NextPageViewState) {
           pageViewcontroller.nextPage(
-              duration: const Duration(milliseconds: 700),
-              curve: Curves.ease);
+              duration: const Duration(milliseconds: 700), curve: Curves.ease);
         }
       },
       child: Scaffold(
@@ -166,8 +171,7 @@ class RegisterScreen extends StatelessWidget {
                         BlocBuilder<NavblocBloc, NavblocState>(
                           builder: (context, state) {
                             return Row(
-                              mainAxisAlignment:
-                                  MainAxisAlignment.spaceBetween,
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
                                 Align(
                                   alignment: Alignment.bottomLeft,
@@ -183,7 +187,53 @@ class RegisterScreen extends StatelessWidget {
                                   }),
                                 ),
                                 pageindex == 2
-                                    ? RegisterButton(formKey: formKey)
+                                    // ? RegisterButton(formKey: formKey)
+                                    ? Align(
+                                        alignment: Alignment.bottomCenter,
+                                        child: FadeInLeft(
+                                          child: SizedBox(
+                                            height: 10.h,
+                                            child: Center(
+                                              child: GestureDetector(
+                                                onTap: () {
+                                                  if (formKey.currentState!.validate()) {
+                                                  registerationUser(context);
+                                                  }
+                                                },
+                                                child: Container(
+                                                  width: 30.w,
+                                                  height: 6.h,
+                                                  decoration:
+                                                      const BoxDecoration(
+                                                    borderRadius:
+                                                        BorderRadius.all(
+                                                            Radius.circular(
+                                                                20)),
+                                                    gradient: LinearGradient(
+                                                        colors: [
+                                                          Color.fromRGBO(
+                                                              166, 210, 255, 1),
+                                                          Color.fromARGB(
+                                                              255, 0, 139, 225)
+                                                        ]),
+                                                  ),
+                                                  child: Center(
+                                                    child: Text(
+                                                      "Register",
+                                                      style: TextStyle(
+                                                        color: Colors.white,
+                                                        fontWeight:
+                                                            FontWeight.w500,
+                                                        fontSize: 13.sp,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      )
                                     : Align(
                                         alignment: Alignment.bottomRight,
                                         child: FadeInLeft(
@@ -219,5 +269,37 @@ class RegisterScreen extends StatelessWidget {
         ),
       ),
     );
+  }
+
+  Future registerationUser(BuildContext context) async {
+    var apiUrl = Uri.parse("https://readerclub.store/api/auth/register");
+
+    Map mapDatas = {
+      "name": nameController.text,
+      "username": usernameController.text,
+      "email": emailController.text,
+      "mobile": phoneController.text,
+      "password": passwordController.text,
+      "cpassword": confirmPasswordController.text,
+    };
+    print("JSON DATA ${mapDatas}");
+
+    http.Response response = await http.post(apiUrl, body: mapDatas);
+    if (response.statusCode == 200) {
+      final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+      sharedPreferences.setBool(savedKey, true);
+      var dataS = jsonDecode(response.body);
+
+      print('DATAAS ${dataS}');
+      
+        Navigator.push(
+          context,
+          PageTransition(
+            child: HomeScreen(),
+            type: PageTransitionType.fade,
+          ),
+        );
+      
+    }
   }
 }
