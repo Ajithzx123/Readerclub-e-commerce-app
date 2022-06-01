@@ -3,10 +3,11 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:readerclub/Presentation/First%20sessions/Login%20page/LoginPage.dart';
 import 'package:readerclub/Presentation/First%20sessions/Reg%20or%20sign/RegOrsignPage.dart';
 import 'package:readerclub/Presentation/widgets/textfromWidget.dart';
 import 'package:sizer/sizer.dart';
+
+import '../../User session/Login page/LoginPage.dart';
 
 class AdminLogin extends StatelessWidget {
   AdminLogin({Key? key}) : super(key: key);

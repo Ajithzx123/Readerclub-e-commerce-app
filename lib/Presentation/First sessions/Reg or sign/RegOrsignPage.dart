@@ -4,12 +4,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:readerclub/Presentation/First%20sessions/Login%20page/LoginPage.dart';
-import 'package:readerclub/Presentation/First%20sessions/RegisterScreen/registerScreen.dart';
-import 'package:readerclub/Presentation/First%20sessions/admin%20login/adminlogin.dart';
+
 import 'package:readerclub/logic/nav_bloc/bloc/navbloc_bloc.dart';
 
 import 'package:sizer/sizer.dart';
+
+import '../../Admin session/admin login/adminlogin.dart';
+import '../../User session/Login page/LoginPage.dart';
+import '../../User session/RegisterScreen/registerScreen.dart';
 
 class RegOrSigninPage extends StatelessWidget {
   const RegOrSigninPage({Key? key}) : super(key: key);

@@ -5,9 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:readerclub/Presentation/First%20sessions/Login%20page/OtpLogin/phoneLogin.dart';
-import 'package:readerclub/Presentation/First%20sessions/Login%20page/widget/widgets.dart';
+
 import 'package:readerclub/Presentation/First%20sessions/Reg%20or%20sign/RegOrsignPage.dart';
+import 'package:readerclub/Presentation/User%20session/Login%20page/widget/widgets.dart';
 import 'package:readerclub/Presentation/User%20session/home%20screen/homescreen.dart';
 import 'package:readerclub/Presentation/widgets/textfromWidget.dart';
 import 'package:readerclub/logic/nav_bloc/bloc/navbloc_bloc.dart';
@@ -15,6 +15,8 @@ import 'package:readerclub/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 import 'package:http/http.dart' as http;
+
+import 'OtpLogin/phoneLogin.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({Key? key}) : super(key: key);

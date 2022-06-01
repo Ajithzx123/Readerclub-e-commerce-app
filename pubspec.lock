@@ -8,13 +8,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.0"
-  animated_splash_screen:
-    dependency: "direct main"
-    description:
-      name: animated_splash_screen
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.2.0"
   archive:
     dependency: transitive
     description:
@@ -78,13 +71,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "1.15.0"
-  concentric_transition:
-    dependency: "direct main"
-    description:
-      name: concentric_transition
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "1.0.2"
   crypto:
     dependency: transitive
     description:
@@ -302,7 +288,7 @@ packages:
       name: pinput
       url: "https://pub.dartlang.org"
     source: hosted
-    version: "2.2.9"
+    version: "2.2.10"
   platform:
     dependency: transitive
     description:
@@ -387,13 +373,6 @@ packages:
       url: "https://pub.dartlang.org"
     source: hosted
     version: "2.1.1"
-  shrink_sidemenu:
-    dependency: "direct main"
-    description:
-      name: shrink_sidemenu
-      url: "https://pub.dartlang.org"
-    source: hosted
-    version: "2.0.0+2-null-safety"
   simple_gradient_text:
     dependency: "direct main"
     description:

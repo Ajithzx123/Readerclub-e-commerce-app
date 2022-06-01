@@ -5,6 +5,7 @@ import 'package:readerclub/logic/nav_bloc/bloc/navbloc_bloc.dart';
 import 'package:sizer/sizer.dart';
 
 const savedKey = "value is saved";
+const onboardKey = "value is also saved";
 void main(List<String> args) {
   runApp(const MyApp());
 }

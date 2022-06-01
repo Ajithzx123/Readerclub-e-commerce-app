@@ -5,6 +5,8 @@ import 'package:lottie/lottie.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:readerclub/Presentation/First%20sessions/Reg%20or%20sign/RegOrsignPage.dart';
 import 'package:readerclub/logic/nav_bloc/bloc/navbloc_bloc.dart';
+import 'package:readerclub/main.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:simple_gradient_text/simple_gradient_text.dart';
 import 'package:sizer/sizer.dart';
 
@@ -83,7 +85,15 @@ class _Scaffold extends StatelessWidget {
           _customText(
               descriptionText: "Let us show you the way to the world of Books")
         ],
-        onFinish: () => context.read<NavblocBloc>().add(NavRegorSignEvent()));
+        onFinish: () {
+          
+
+          context.read<NavblocBloc>().add(NavRegorSignEvent());
+        });
+  }
+  Future OnboardShared () async{
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool(onboardKey,true);
   }
 }
 

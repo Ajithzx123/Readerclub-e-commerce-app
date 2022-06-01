@@ -1,4 +1,4 @@
-import 'package:animated_splash_screen/animated_splash_screen.dart';
+import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:page_transition/page_transition.dart';
@@ -18,50 +18,84 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-
-
-  
-  Future getdata() async{
-    final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+  Future getdata() async {
+    final SharedPreferences sharedPreferences =
+        await SharedPreferences.getInstance();
 
     final value = sharedPreferences.getBool(savedKey);
-    if(value == true){
+    final onboardvalue = sharedPreferences.getBool(onboardKey);
+    if (value == true) {
       navtomain();
-    }else{
+    } else if( onboardvalue == false){
+navtoOnboard();
+    }
+    
+    
+     else {
       navtoREgOrSign();
     }
   }
-@override
+
+  @override
   void initState() {
-getdata();
+    getdata();
     super.initState();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(child: Column(
+      body: SafeArea(
+          child: Center(
+            child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Center(
-            child:  LottieBuilder.asset("Assets/splash logo.json"),
-          ),
-          GradientText("READER CLUB", colors: const [
-            Color.fromARGB(255, 160, 123, 173),
-            Color.fromARGB(255, 24, 79, 124)
-          ],style: TextStyle(fontWeight: FontWeight.w900,fontSize: 20.sp),)
+            FadeIn(
+              delay: Duration(seconds: 1),
+              child: LottieBuilder.asset("Assets/splash logo.json",height: 30.h,)),
+            FadeIn(
+              delay: Duration(seconds: 1),
+              child: GradientText(
+                "R E A D E R   C L U B",
+                colors: const [
+                  Color.fromARGB(255, 160, 123, 173),
+                  Color.fromARGB(255, 24, 79, 124)
+                ],
+                style: TextStyle(fontWeight: FontWeight.w900, fontSize: 25.sp),
+              ),
+            )
         ],
-      )),
+      ),
+          )),
     );
-    
+  }
+
+  Future navtomain() async {
+    Future.delayed(const Duration(seconds: 3), () {
+      Navigator.pushAndRemoveUntil(
+          context,
+          PageTransition(child: const HomeScreen(), type: PageTransitionType.fade),
+          (route) => false);
+    });
+  }
+
+  Future navtoREgOrSign() async {
+    Future.delayed(const Duration(seconds: 3), () {
+      Navigator.pushAndRemoveUntil(
+          context,
+          PageTransition(
+              child: const RegOrSigninPage(), type: PageTransitionType.fade),
+          (route) => false);
+    });
+  }
+   Future navtoOnboard() async {
+    Future.delayed(const Duration(seconds: 3), () {
+      Navigator.pushAndRemoveUntil(
+          context,
+          PageTransition(
+              child: const OnboardingScreen(), type: PageTransitionType.fade),
+          (route) => false);
+    });
 }
-Future navtomain() async{
-    Future.delayed(Duration(seconds: 3),(){
-        Navigator.pushAndRemoveUntil(context, PageTransition(child: HomeScreen() ,type:PageTransitionType.fade ), (route) => false);
-      });
-  }
-  Future navtoREgOrSign() async{
-    Future.delayed(Duration(seconds: 3),(){
-        Navigator.pushAndRemoveUntil(context, PageTransition(child: RegOrSigninPage() ,type:PageTransitionType.fade ), (route) => false);
-      });
-  }
 }

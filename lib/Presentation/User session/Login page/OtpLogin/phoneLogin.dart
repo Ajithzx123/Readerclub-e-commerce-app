@@ -3,19 +3,17 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:pinput/pinput.dart';
-import 'package:readerclub/Presentation/First%20sessions/Login%20page/widget/widgets.dart';
-import 'package:readerclub/Presentation/User%20session/home%20screen/homescreen.dart';
-import 'package:readerclub/main.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+
 import 'package:sizer/sizer.dart';
 import 'package:http/http.dart' as http;
 
-class OtpPage extends StatelessWidget {
-  final TextEditingController phcontroller;
-  OtpPage({required this.phcontroller, Key? key}) : super(key: key);
+import '../widget/widgets.dart';
+import 'OtpPage.dart';
 
-  TextEditingController otpController = TextEditingController();
+class PhoneLogin extends StatelessWidget {
+  PhoneLogin({Key? key}) : super(key: key);
+
+  TextEditingController phonecontroller = TextEditingController();
 
   final formKey = GlobalKey<FormState>();
 
@@ -42,16 +40,13 @@ class OtpPage extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Lottie.asset(
-                            "Assets/login/phone otp page/otpverification.json",
+                            "Assets/login/phone otp page/otp.json",
                             height: 40.h,
                             alignment: Alignment.centerLeft,
                             addRepaintBoundary: false,
                           ),
-                          SizedBox(
-                            height: 6.h,
-                          ),
                           Text(
-                            "Enter Your Code",
+                            "Enter Your Phone Number",
                             style: TextStyle(
                                 fontSize: 23.sp, fontWeight: FontWeight.bold),
                           ),
@@ -59,41 +54,36 @@ class OtpPage extends StatelessWidget {
                             height: 1.5.h,
                           ),
                           Text(
-                            "Please enter the 4-digit verification code sent to your Phone Number",
+                            "You'll recieve a 4-digit  code for the  Phone Number verification",
                             style: TextStyle(
-                                fontSize: 13.sp,
-                                fontWeight: FontWeight.w600,
-                                color:
-                                    const Color.fromARGB(255, 103, 102, 102)),
+                                fontSize: 13.sp, fontWeight: FontWeight.w600),
                           ),
                           SizedBox(
-                            height: 5.h,
+                            height: 7.h,
                           ),
-                          Padding(
-                            padding: EdgeInsets.only(left: .5.w),
-                            child: Pinput(
-                              length: 4,
-                              controller: otpController,
-                              focusNode: FocusNode(),
-                              separator: SizedBox(
-                                width: 6.w,
-                              ),
-                              defaultPinTheme: defaultPinTheme,
-                              showCursor: true,
-                            ),
+                          CustomTextformfield(
+                            controller: phonecontroller,
+                            validator: ((numbervalue) {
+                              if (numbervalue.length != 10) {
+                                return 'Mobile Number must be of 10 digit';
+                              }
+                              return null;
+                            }),
                           ),
                           SizedBox(
-                            height: 3.h,
+                            height: 2.h,
                           ),
                           Center(
                             child: _RegisterButton(
                               ontap: () {
-                                otpVerification(context);
+                                if (formKey.currentState!.validate()) {
+                                  phoneVerification(context);
+                                }
                               },
                             ),
                           ),
                           SizedBox(
-                            height: 8.5.h,
+                            height: 17.h,
                           ),
                           const RegisterDontHaveAccount()
                         ],
@@ -107,44 +97,30 @@ class OtpPage extends StatelessWidget {
     );
   }
 
-  Future otpVerification(BuildContext context) async {
-    var apiUrl = Uri.parse("https://readerclub.store/api/auth/otpverify");
+  Future phoneVerification(BuildContext context) async {
+    var apiUrl = Uri.parse("https://readerclub.store/api/auth/otplogin");
 
     Map mapDatas = {
-      "otp": otpController.text,
-      "mobile": phcontroller.text,
+      "mobile": phonecontroller.text,
     };
-    //  print("${otpController.text}");
+    print("JSON DATA $mapDatas");
+
     http.Response response = await http.post(apiUrl, body: mapDatas);
-    // print("${response.statusCode}");
 
     if (response.statusCode == 200) {
-      final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    sharedPreferences.setBool(savedKey, true);
       var dataS = jsonDecode(response.body);
 
       print('DATAAS $dataS');
-      Navigator.pushAndRemoveUntil(
+      Navigator.push(
           context,
-          PageTransition(child: HomeScreen(), type: PageTransitionType.fade),
-          (route) => false);
+          PageTransition(
+              child: OtpPage(phcontroller: phonecontroller),
+              type: PageTransitionType.fade));
     } else {
-      print("wrong Otp");
+      print("No phone number");
     }
   }
 }
-
-final defaultPinTheme = PinTheme(
-    width: 18.w,
-    height: 8.h,
-    textStyle: TextStyle(
-        fontSize: 15.sp,
-        color: const Color.fromRGBO(70, 69, 66, 1),
-        fontWeight: FontWeight.bold),
-    decoration: BoxDecoration(
-      color: const Color.fromARGB(94, 202, 202, 202),
-      borderRadius: BorderRadius.circular(24),
-    ));
 
 class _RegisterButton extends StatelessWidget {
   final VoidCallback ontap;
@@ -158,7 +134,7 @@ class _RegisterButton extends StatelessWidget {
     return GestureDetector(
       onTap: ontap,
       child: Container(
-          height: 7.h,
+          height: 6.h,
           decoration: const BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(40)),
             gradient: LinearGradient(colors: [
@@ -174,6 +150,43 @@ class _RegisterButton extends StatelessWidget {
                 fontWeight: FontWeight.w500,
                 fontSize: 13.sp),
           ))),
+    );
+  }
+}
+
+class CustomTextformfield extends StatelessWidget {
+  final TextEditingController controller;
+  final FormFieldValidator validator;
+
+  const CustomTextformfield(
+      {required this.controller, required this.validator, Key? key})
+      : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return TextFormField(
+      keyboardType: TextInputType.number,
+      controller: controller,
+      validator: validator,
+      textInputAction: TextInputAction.done,
+      decoration: InputDecoration(
+          hintText: "Phone Number",
+          hintStyle: TextStyle(fontSize: 12.sp),
+          errorBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: Colors.black),
+              borderRadius: BorderRadius.circular(25)),
+          enabledBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.black, width: .3.w),
+            borderRadius: BorderRadius.circular(25.0),
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.black, width: .3.w),
+            borderRadius: BorderRadius.circular(25.0),
+          ),
+          focusedErrorBorder: OutlineInputBorder(
+            borderSide: BorderSide(color: Colors.black, width: .3.w),
+            borderRadius: BorderRadius.circular(25.0),
+          )),
     );
   }
 }

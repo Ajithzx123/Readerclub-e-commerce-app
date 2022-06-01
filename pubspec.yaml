@@ -28,10 +28,8 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   animate_do: ^2.1.0
-  animated_splash_screen: ^1.2.0
   bloc: ^8.0.3
   carousel_slider: ^4.1.1
-  concentric_transition: ^1.0.2
   cupertino_icons: ^1.0.2
   flutter:
     sdk: flutter
@@ -44,7 +42,6 @@ dependencies:
   page_transition: ^2.0.5
   pinput: ^2.2.9
   shared_preferences: ^2.0.15
-  shrink_sidemenu: ^2.0.0+2-null-safety
   simple_gradient_text: ^1.2.3
   sizer: ^2.0.15
 

@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:readerclub/Presentation/First%20sessions/Reg%20or%20sign/RegOrsignPage.dart';
-import 'package:readerclub/Presentation/First%20sessions/RegisterScreen/widget/widgets.dart';
+import 'package:readerclub/Presentation/User%20session/RegisterScreen/widget/widgets.dart';
 import 'package:readerclub/logic/nav_bloc/bloc/navbloc_bloc.dart';
 import 'package:readerclub/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
