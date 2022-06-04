@@ -86,15 +86,11 @@ class _Scaffold extends StatelessWidget {
               descriptionText: "Let us show you the way to the world of Books")
         ],
         onFinish: () {
-          
 
           context.read<NavblocBloc>().add(NavRegorSignEvent());
         });
   }
-  Future OnboardShared () async{
-    final SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool(onboardKey,true);
-  }
+
 }
 
 class _customText extends StatelessWidget {

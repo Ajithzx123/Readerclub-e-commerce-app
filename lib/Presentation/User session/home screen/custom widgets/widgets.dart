@@ -1,65 +1,14 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
+import 'package:readerclub/Presentation/User%20session/Cart/cart.dart';
+import 'package:readerclub/Presentation/User%20session/Categories/Categories.dart';
 
 import 'package:sizer/sizer.dart';
 
-class BookAndName extends StatelessWidget {
-  final String image;
-  final String name;
-  final String amount;
-
-  const BookAndName({
-    Key? key,
-    required this.image,
-    required this.name,
-    required this.amount,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    return SizedBox(
-        width: 40.w,
-        height: 30.h,
-        child: Column(
-          children: [
-            Container(
-              width: 35.w,
-              height: 21.h,
-              decoration: BoxDecoration(
-                  color: Colors.blue,
-                  image: DecorationImage(
-                      image: NetworkImage(
-                        image,
-                      ),
-                      fit: BoxFit.cover),
-                  borderRadius: BorderRadius.circular(5.w)),
-            ),
-            SizedBox(
-              height: 1.h,
-            ),
-            Text(
-              name,
-              style: TextStyle(fontSize: 13.sp, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(
-              height: .5.h,
-            ),
-            Text(
-              amount,
-              style: TextStyle(
-                  fontSize: 12.sp,
-                  fontWeight: FontWeight.w700,
-                  color: Colors.black54),
-            )
-          ],
-        ));
-  }
-}
 
 class CustomButtonHome extends StatelessWidget {
-  final VoidCallback onPressed;
   const CustomButtonHome({
-    required this.onPressed,
     Key? key,
   }) : super(key: key);
 
@@ -78,7 +27,9 @@ class CustomButtonHome extends StatelessWidget {
                 Color.fromARGB(255, 9, 9, 9)
               ])),
       child: ElevatedButton(
-        onPressed: onPressed,
+        onPressed: (){
+          Navigator.push(context, PageTransition(child: Categories(), type: PageTransitionType.rightToLeftWithFade));
+        },
         child: Text(
           "View All",
           style:
@@ -120,7 +71,9 @@ class Topicons extends StatelessWidget {
         ),
         FadeInLeft(
           child: GestureDetector(
-              onTap: (() {}),
+              onTap: (() {
+                Navigator.push(context, PageTransition(child: Cart(), type: PageTransitionType.fade));
+              }),
               child: Icon(
                 Icons.shopping_cart_outlined,
                 size: 8.w,

@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:readerclub/Presentation/User%20session/home%20screen/custom%20widgets/widgets.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../widgets/BookCustom.dart';
+
 class TabbarTabs extends StatelessWidget {
   const TabbarTabs({
     Key? key,
@@ -99,7 +101,7 @@ class TabBarViews extends StatelessWidget {
                   ),
                 ],
               ),
-              FadeInUp(child: CustomButtonHome(onPressed: () {}))
+              FadeInUp(child: CustomButtonHome())
             ],
           )),
           Center(
@@ -126,7 +128,7 @@ class TabBarViews extends StatelessWidget {
                   ),
                 ],
               ),
-              FadeInUp(child: CustomButtonHome(onPressed: () {}))
+              FadeInUp(child: CustomButtonHome())
             ],
           )),
           Center(
@@ -153,7 +155,7 @@ class TabBarViews extends StatelessWidget {
                   ),
                 ],
               ),
-              FadeInUp(child: CustomButtonHome(onPressed: () {}))
+              FadeInUp(child: CustomButtonHome())
             ],
           )),
           Center(
@@ -180,7 +182,7 @@ class TabBarViews extends StatelessWidget {
                   ),
                 ],
               ),
-              FadeInUp(child: CustomButtonHome(onPressed: () {}))
+              FadeInUp(child: CustomButtonHome())
             ],
           )),
           Center(
@@ -207,7 +209,7 @@ class TabBarViews extends StatelessWidget {
                   ),
                 ],
               ),
-              FadeInUp(child: CustomButtonHome(onPressed: () {}))
+              FadeInUp(child: CustomButtonHome())
             ],
           )),
           Center(

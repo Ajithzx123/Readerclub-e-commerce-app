@@ -26,13 +26,10 @@ class _SplashScreenState extends State<SplashScreen> {
     final onboardvalue = sharedPreferences.getBool(onboardKey);
     if (value == true) {
       navtomain();
-    } else if( onboardvalue == false){
-navtoOnboard();
-    }
-    
-    
-     else {
+    } else if (onboardvalue == true) {
       navtoREgOrSign();
+    } else {
+      navtoOnboard();
     }
   }
 
@@ -47,15 +44,18 @@ navtoOnboard();
     return Scaffold(
       body: SafeArea(
           child: Center(
-            child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
             FadeIn(
-              delay: Duration(seconds: 1),
-              child: LottieBuilder.asset("Assets/splash logo.json",height: 30.h,)),
+                delay: const Duration(seconds: 1),
+                child: LottieBuilder.asset(
+                  "Assets/splash logo.json",
+                  height: 30.h,
+                )),
             FadeIn(
-              delay: Duration(seconds: 1),
+              delay: const Duration(seconds: 1),
               child: GradientText(
                 "R E A D E R   C L U B",
                 colors: const [
@@ -65,9 +65,9 @@ navtoOnboard();
                 style: TextStyle(fontWeight: FontWeight.w900, fontSize: 25.sp),
               ),
             )
-        ],
-      ),
-          )),
+          ],
+        ),
+      )),
     );
   }
 
@@ -75,7 +75,8 @@ navtoOnboard();
     Future.delayed(const Duration(seconds: 3), () {
       Navigator.pushAndRemoveUntil(
           context,
-          PageTransition(child: const HomeScreen(), type: PageTransitionType.fade),
+          PageTransition(
+              child: const HomeScreen(), type: PageTransitionType.fade),
           (route) => false);
     });
   }
@@ -89,7 +90,11 @@ navtoOnboard();
           (route) => false);
     });
   }
-   Future navtoOnboard() async {
+
+  Future navtoOnboard() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    prefs.setBool(onboardKey, true);
+
     Future.delayed(const Duration(seconds: 3), () {
       Navigator.pushAndRemoveUntil(
           context,
@@ -97,5 +102,5 @@ navtoOnboard();
               child: const OnboardingScreen(), type: PageTransitionType.fade),
           (route) => false);
     });
-}
+  }
 }

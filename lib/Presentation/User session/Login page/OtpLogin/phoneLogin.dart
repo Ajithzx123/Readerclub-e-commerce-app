@@ -76,6 +76,7 @@ class PhoneLogin extends StatelessWidget {
                           Center(
                             child: _RegisterButton(
                               ontap: () {
+                                
                                 if (formKey.currentState!.validate()) {
                                   phoneVerification(context);
                                 }
@@ -83,7 +84,7 @@ class PhoneLogin extends StatelessWidget {
                             ),
                           ),
                           SizedBox(
-                            height: 17.h,
+                            height: 16.h,
                           ),
                           const RegisterDontHaveAccount()
                         ],
@@ -134,7 +135,7 @@ class _RegisterButton extends StatelessWidget {
     return GestureDetector(
       onTap: ontap,
       child: Container(
-          height: 6.h,
+          height: 7.h,
           decoration: const BoxDecoration(
             borderRadius: BorderRadius.all(Radius.circular(40)),
             gradient: LinearGradient(colors: [

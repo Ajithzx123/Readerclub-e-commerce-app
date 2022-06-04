@@ -1,7 +1,9 @@
-
 import 'package:flutter/material.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:readerclub/Presentation/First%20sessions/Reg%20or%20sign/RegOrsignPage.dart';
+import 'package:readerclub/Presentation/User%20session/WishList/wishlist.dart';
+import 'package:readerclub/Presentation/widgets/AlertdialogueCustom.dart';
+import 'package:readerclub/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 
@@ -66,7 +68,7 @@ class SideDrawer extends StatelessWidget {
                 'Whishlist',
                 style: TextStyle(fontSize: 13.sp, fontWeight: FontWeight.bold),
               ),
-              onTap: () => {Navigator.of(context).pop()},
+              onTap: () => {Navigator.push(context, PageTransition(child: WishLists(), type: PageTransitionType.fade))},
             ),
             ListTile(
               leading: const Icon(
@@ -111,7 +113,19 @@ class SideDrawer extends StatelessWidget {
                 'Logout',
                 style: TextStyle(fontSize: 13.sp, fontWeight: FontWeight.bold),
               ),
-              onTap: () => {sharedprefLogout(context)},
+              onTap: () => {
+                
+                showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertPopUp(title: "Logout", description: "Do you want to Logout", leftontap: (){
+                sharedprefLogout(context);
+
+                      }, leftButton: "Yes", rightbutton: "No", rightontap: () { 
+                        Navigator.of(context).pop();
+                       },);
+                    })
+              },
             ),
           ],
         ),
@@ -123,7 +137,7 @@ class SideDrawer extends StatelessWidget {
 Future sharedprefLogout(BuildContext context) async {
   final SharedPreferences sharedPreferences =
       await SharedPreferences.getInstance();
-  sharedPreferences.clear();
+  sharedPreferences.setBool(savedKey, false);
   Navigator.pushAndRemoveUntil(
       context,
       PageTransition(child: RegOrSigninPage(), type: PageTransitionType.fade),

@@ -26,6 +26,8 @@ class CustomText extends StatelessWidget {
       obscureText: obscure ?? false,
       controller: controller,
       validator: validator,
+      autovalidateMode: AutovalidateMode.onUserInteraction,
+      enableSuggestions: true,
       textInputAction: textinputaction,
       decoration: InputDecoration(
           hintText: hinttext,
