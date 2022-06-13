@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:readerclub/Presentation/First%20sessions/Splash%20Screen/splash%20screen.dart';
+import 'package:readerclub/logic/LoadingBloc/loadingbloc_bloc.dart';
 import 'package:readerclub/logic/nav_bloc/bloc/navbloc_bloc.dart';
 import 'package:sizer/sizer.dart';
 
@@ -24,6 +25,9 @@ class MyApp extends StatelessWidget {
             
             BlocProvider(
               create: (context) => NavblocBloc(),
+            ),
+            BlocProvider(
+              create: (context) => LoadingblocBloc(),
             )
           ],
           child: const  MaterialApp(

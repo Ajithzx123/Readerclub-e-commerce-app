@@ -3,6 +3,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:readerclub/Presentation/First%20sessions/Reg%20or%20sign/RegOrsignPage.dart';
 import 'package:readerclub/Presentation/User%20session/WishList/wishlist.dart';
 import 'package:readerclub/Presentation/widgets/AlertdialogueCustom.dart';
+import 'package:readerclub/Presentation/widgets/error.dart';
 import 'package:readerclub/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
@@ -79,7 +80,7 @@ class SideDrawer extends StatelessWidget {
                 'Offers',
                 style: TextStyle(fontSize: 13.sp, fontWeight: FontWeight.bold),
               ),
-              onTap: () => {Navigator.of(context).pop()},
+              onTap: () => {Navigator.push(context, PageTransition(child: const ErrorPage(), type: PageTransitionType.fade))},
             ),
             ListTile(
               leading: const Icon(
@@ -90,7 +91,7 @@ class SideDrawer extends StatelessWidget {
                 'My cart',
                 style: TextStyle(fontSize: 13.sp, fontWeight: FontWeight.bold),
               ),
-              onTap: () => {Navigator.of(context).pop()},
+              onTap: () => {Navigator.push(context, PageTransition(child: const ErrorPage(), type: PageTransitionType.fade))},
             ),
             ListTile(
               leading: const Icon(
@@ -101,7 +102,7 @@ class SideDrawer extends StatelessWidget {
                 'About',
                 style: TextStyle(fontSize: 13.sp, fontWeight: FontWeight.bold),
               ),
-              onTap: () => {Navigator.of(context).pop()},
+              onTap: () => {Navigator.push(context, PageTransition(child: const ErrorPage(), type: PageTransitionType.fade))},
             ),
             Spacer(),
             ListTile(

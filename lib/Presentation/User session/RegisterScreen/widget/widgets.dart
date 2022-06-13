@@ -14,6 +14,8 @@ class CustomPageView extends StatelessWidget {
   final TextEditingController secondcontroller;
   final String hinttext1;
   final String hinttext2;
+  final String labeltext1;
+  final String labeltext2;
   final String lottie;
   final bool? obscure;
   final FormFieldValidator firstvalidate;
@@ -36,6 +38,8 @@ class CustomPageView extends StatelessWidget {
     required this.secondcontroller,
     required this.hinttext1,
     required this.hinttext2,
+    required this.labeltext1,
+    required this.labeltext2,
     required this.lottie,
   }) : super(key: key);
 
@@ -52,6 +56,8 @@ class CustomPageView extends StatelessWidget {
               textinputtype: textinputtype,
               obscure: obscure,
               controller: firstcontroller,
+              labeltext: labeltext1,
+              
               hinttext: hinttext1,
               textinputaction: textInputActionNext,
             ),
@@ -69,6 +75,7 @@ class CustomPageView extends StatelessWidget {
             obscure: obscure,
             controller: secondcontroller,
             hinttext: hinttext2,
+            labeltext: labeltext2,
             textinputaction: textInputActionDone,
           )),
         )
@@ -78,7 +85,9 @@ class CustomPageView extends StatelessWidget {
 }
 
 class PageViewNextButton extends StatelessWidget {
-  const PageViewNextButton({
+  IconData icon;
+   PageViewNextButton({
+    required this.icon,
     Key? key,
   }) : super(key: key);
 
@@ -95,86 +104,14 @@ class PageViewNextButton extends StatelessWidget {
           shape: BoxShape.circle,
         ),
         child: Icon(
-          Icons.arrow_forward_ios_rounded,
+         icon,
           color: Colors.white,
           size: 13.sp,
         ));
   }
 }
 
-// class RegisterButton extends StatelessWidget {
-//   const RegisterButton({
-//     Key? key,
-//     required this.formKey,
-//   }) : super(key: key);
 
-//   final GlobalKey<FormState> formKey;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Align(
-//       alignment: Alignment.bottomCenter,
-//       child: FadeInLeft(
-//         child: SizedBox(
-//           height: 10.h,
-//           child: Center(
-//             child: GestureDetector(
-//               onTap: () {
-
-
-//                 registerationUser();
-
-
-//                 if (formKey.currentState!.validate()) {
-//                   Navigator.push(
-//                     context,
-//                     PageTransition(
-//                       child: HomeScreen(),
-//                       type: PageTransitionType.fade,
-//                     ),
-//                   );
-//                 }
-//               },
-//               child: Container(
-//                 width: 30.w,
-//                 height: 6.h,
-//                 decoration: const BoxDecoration(
-//                   borderRadius: BorderRadius.all(Radius.circular(20)),
-//                   gradient: LinearGradient(colors: [
-//                     Color.fromRGBO(166, 210, 255, 1),
-//                     Color.fromARGB(255, 0, 139, 225)
-//                   ]),
-//                 ),
-//                 child: Center(
-//                   child: Text(
-//                     "Register",
-//                     style: TextStyle(
-//                       color: Colors.white,
-//                       fontWeight: FontWeight.w500,
-//                       fontSize: 13.sp,
-//                     ),
-//                   ),
-//                 ),
-//               ),
-//             ),
-//           ),
-//         ),
-//       ),
-//     );
-//   }
-
-//   void registerationUser() {
-
-//     var apiurl ="";
-
-//     Map mapData =  {
-//       "name": namecontroller
-//     } 
-
-
-
-//   }
-// }
 
 class SignInAlreadyAccount extends StatelessWidget {
   const SignInAlreadyAccount({

@@ -30,6 +30,7 @@ class RegisterScreen extends StatelessWidget {
   TextEditingController confirmPasswordController = TextEditingController();
   int pageindex = 0;
   final formKey = GlobalKey<FormState>();
+  bool pageviewbutton = false;
 
   @override
   Widget build(BuildContext context) {
@@ -51,6 +52,11 @@ class RegisterScreen extends StatelessWidget {
         }
       },
       child: Scaffold(
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          shadowColor: Colors.transparent,
+          iconTheme: const IconThemeData(color: Colors.black),
+        ),
         backgroundColor: Colors.white,
         body: SafeArea(
           child: Form(
@@ -59,19 +65,6 @@ class RegisterScreen extends StatelessWidget {
                 physics: const ClampingScrollPhysics(
                     parent: NeverScrollableScrollPhysics()),
                 children: [
-                  Align(
-                      alignment: Alignment.topLeft,
-                      child: Padding(
-                        padding: EdgeInsets.all(2.0.w),
-                        child: IconButton(
-                          icon: const Icon(Icons.arrow_back),
-                          onPressed: () {
-                            context
-                                .read<NavblocBloc>()
-                                .add(BackToRegOrSignEvent());
-                          },
-                        ),
-                      )),
                   Center(
                       child: Text(
                     "Create New Account",
@@ -91,81 +84,89 @@ class RegisterScreen extends StatelessWidget {
                       controller: pageViewcontroller,
                       children: [
                         CustomPageView(
-                            firstvalidate: ((namevalue) {
-                              if (namevalue.isEmpty) {
-                                return 'Please enter name';
-                              }
-                              return null;
-                            }),
-                            secondvalidate: ((uservalue) {
-                              if (uservalue.isEmpty) {
-                                return 'Please enter Username';
-                              }
-                              return null;
-                            }),
-                            firstcontroller: nameController,
-                            secondcontroller: usernameController,
-                            textInputActionNext: TextInputAction.next,
-                            textInputActionDone: TextInputAction.done,
-                            hinttext1: "Name",
-                            hinttext2: "Username",
-                            lottie: "Assets/Register/register first.json"),
+                          firstvalidate: ((namevalue) {
+                            if (namevalue.isEmpty) {
+                              return 'Please enter Name';
+                            }
+                            return null;
+                          }),
+                          secondvalidate: ((uservalue) {
+                            if (uservalue.isEmpty) {
+                              return 'Please enter Username';
+                            }
+                            return null;
+                          }),
+                          firstcontroller: nameController,
+                          secondcontroller: usernameController,
+                          textInputActionNext: TextInputAction.next,
+                          textInputActionDone: TextInputAction.done,
+                          hinttext1: "Name",
+                          hinttext2: "Username",
+                          lottie: "Assets/Register/register first.json",
+                          labeltext1: 'Name', labeltext2: 'Username',
+                        ),
                         CustomPageView(
-                            firstvalidate: ((mailvalue) {
-                              if (mailvalue != null) {
-                                if (mailvalue.length > 5 &&
-                                    mailvalue.contains('@') &&
-                                    mailvalue.endsWith('.com')) {
-                                  return null;
-                                }
-                                return 'Enter a Valid Email Address';
+                          firstvalidate: ((mailvalue) {
+                            if (mailvalue != null) {
+                              if (mailvalue.length > 5 &&
+                                  mailvalue.contains('@') &&
+                                  mailvalue.endsWith('.com')) {
+                                return null;
                               }
-                            }),
-                            secondvalidate: ((numbervalue) {
-                              if (numbervalue.length != 10) {
-                                return 'Mobile Number must be of 10 digit';
-                              }
-                              return null;
-                            }),
-                            firstcontroller: emailController,
-                            secondcontroller: phoneController,
-                            hinttext1: "Email",
-                            textInputActionNext: TextInputAction.next,
-                            textInputActionDone: TextInputAction.done,
-                            textinputtype: TextInputType.emailAddress,
-                            textinputtypeNumber: TextInputType.number,
-                            hinttext2: "Phone Number",
-                            lottie: "Assets/Register/register second.json"),
+                              return 'Enter a Valid Email Address';
+                            }
+                          }),
+                          secondvalidate: ((numbervalue) {
+                            if (numbervalue.length != 10) {
+                              return 'Mobile Number must be of 10 digit';
+                            }
+                            return null;
+                          }),
+                          firstcontroller: emailController,
+                          secondcontroller: phoneController,
+                          hinttext1: "Email",
+                          textInputActionNext: TextInputAction.next,
+                          textInputActionDone: TextInputAction.done,
+                          textinputtype: TextInputType.emailAddress,
+                          textinputtypeNumber: TextInputType.number,
+                          hinttext2: "Phone Number",
+                          lottie: "Assets/Register/register second.json",
+                          labeltext1: 'Email',
+                          labeltext2: 'Phone Number',
+                        ),
                         CustomPageView(
-                            firstvalidate: ((passwordvalue) {
-                              if (passwordvalue.isEmpty) {
-                                return 'Please enter some text';
-                              }
-                              if (passwordvalue.length < 5) {
-                                return ' password Must be more than 4 charater';
-                              }
-                            }),
-                            secondvalidate: ((confirmvalue) {
-                              if (confirmvalue != passwordController.text) {
-                                return "please enter same password";
-                              }
-                              if (confirmvalue == null) {
-                                return "please confirm password";
-                              }
-                            }),
-                            firstcontroller: passwordController,
-                            secondcontroller: confirmPasswordController,
-                            obscure: true,
-                            textInputActionNext: TextInputAction.next,
-                            textInputActionDone: TextInputAction.done,
-                            hinttext1: "Password",
-                            hinttext2: "Confirm Password",
-                            lottie: "Assets/Register/register third.json")
+                          firstvalidate: ((passwordvalue) {
+                            if (passwordvalue.isEmpty) {
+                              return 'Please enter some text';
+                            }
+                            if (passwordvalue.length < 5) {
+                              return ' password Must be more than 4 charater';
+                            }
+                          }),
+                          secondvalidate: ((confirmvalue) {
+                            if (confirmvalue != passwordController.text) {
+                              return "please enter same password";
+                            }
+                            if (confirmvalue == null) {
+                              return "please confirm password";
+                            }
+                          }),
+                          firstcontroller: passwordController,
+                          secondcontroller: confirmPasswordController,
+                          obscure: true,
+                          textInputActionNext: TextInputAction.next,
+                          textInputActionDone: TextInputAction.done,
+                          hinttext1: "Password",
+                          hinttext2: "Confirm Password",
+                          lottie: "Assets/Register/register third.json",
+                          labeltext1: 'Password',
+                          labeltext2: 'Confirm password',
+                        )
                       ],
                     ),
                   ),
                   Padding(
-                    padding: EdgeInsets.only(right: 10.w, left: 10.w),
+                    padding: EdgeInsets.only(right: 15.w, left: 15.w),
                     child: Column(
                       children: [
                         BlocBuilder<NavblocBloc, NavblocState>(
@@ -173,19 +174,21 @@ class RegisterScreen extends StatelessWidget {
                             return Row(
                               mainAxisAlignment: MainAxisAlignment.spaceBetween,
                               children: [
-                                Align(
-                                  alignment: Alignment.bottomLeft,
-                                  child: Builder(builder: (context) {
-                                    return IconButton(
-                                        onPressed: () {
-                                          pageindex--;
-                                          context
-                                              .read<NavblocBloc>()
-                                              .add(PrevPageViewEvent());
-                                        },
-                                        icon: const Icon(Icons.arrow_back));
-                                  }),
-                                ),
+                                pageindex >= 1
+                                    ? Builder(builder: (context) {
+                                        return GestureDetector(
+                                            onTap: () {
+                                              context
+                                                  .read<NavblocBloc>()
+                                                  .add(PrevPageViewEvent());
+                                              pageindex--;
+                                            },
+                                            child: PageViewNextButton(
+                                              icon: Icons.arrow_back_ios,
+                                            ));
+                                      })
+                                    : Container(),
+                                // Text("haii"),
                                 pageindex == 2
                                     // ? RegisterButton(formKey: formKey)
                                     ? Align(
@@ -196,8 +199,9 @@ class RegisterScreen extends StatelessWidget {
                                             child: Center(
                                               child: GestureDetector(
                                                 onTap: () {
-                                                  if (formKey.currentState!.validate()) {
-                                                  registerationUser(context);
+                                                  if (formKey.currentState!
+                                                      .validate()) {
+                                                    registerationUser(context);
                                                   }
                                                 },
                                                 child: Container(
@@ -249,7 +253,8 @@ class RegisterScreen extends StatelessWidget {
                                                 return;
                                               }
                                             },
-                                            child: const PageViewNextButton(),
+                                            child: PageViewNextButton(
+                                                icon: Icons.arrow_forward_ios),
                                           ),
                                         ),
                                       ),
@@ -286,20 +291,20 @@ class RegisterScreen extends StatelessWidget {
 
     http.Response response = await http.post(apiUrl, body: mapDatas);
     if (response.statusCode == 200) {
-      final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+      final SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
       sharedPreferences.setBool(savedKey, true);
       var dataS = jsonDecode(response.body);
 
       print('DATAAS ${dataS}');
-      
-        Navigator.push(
-          context,
-          PageTransition(
-            child: HomeScreen(),
-            type: PageTransitionType.fade,
-          ),
-        );
-      
+
+      Navigator.push(
+        context,
+        PageTransition(
+          child: HomeScreen(),
+          type: PageTransitionType.fade,
+        ),
+      );
     }
   }
 }

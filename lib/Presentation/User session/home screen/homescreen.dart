@@ -1,10 +1,13 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:page_transition/page_transition.dart';
 import 'package:readerclub/Presentation/User%20session/home%20screen/custom%20widgets/widgets.dart';
+import 'package:readerclub/api/model.dart';
 
 import 'package:sizer/sizer.dart';
 
 import 'custom widgets/Custom Tab bar.dart';
+import 'custom widgets/SearchScreen.dart';
 import 'custom widgets/carouselCustom.dart';
 import 'custom widgets/side Drawer.dart';
 
@@ -32,7 +35,7 @@ class _HomeScreenState extends State<HomeScreen>
     super.dispose();
     _tabController.dispose();
   }
-
+UserDetails ajmal = UserDetails();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -40,35 +43,82 @@ class _HomeScreenState extends State<HomeScreen>
         body: SafeArea(
           child: Padding(
             padding: EdgeInsets.all(7.w),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // top icons here
-                const Topicons(),
-                SizedBox(height: 5.h),
-                Text(
-                  "Hi Ajith!",
-                  style:
-                      TextStyle(fontSize: 25.sp, fontWeight: FontWeight.w900),
+            child: SingleChildScrollView(
+              child: SizedBox(
+                width: double.maxFinite,
+                height: MediaQuery.of(context).size.height,
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    // top icons here
+                    const Topicons(),
+                    SizedBox(height: 5.h),
+                    
+                    Text(
+                      "Hi Ajith!",
+                      style:
+                          TextStyle(fontSize: 25.sp, fontWeight: FontWeight.w900),
+                    ),
+                    SizedBox(height: 1.h),
+                    Text(
+                      "New offers from ReaderClub",
+                      style:
+                          TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500),
+                    ),
+                    SizedBox(height: 3.h),
+                   const CustTextform(),
+                                    SizedBox(height: 3.h),
+                
+                    // carousel list here
+                    FadeIn(child: const Carousel()),
+                    SizedBox(height: 3.h),
+                    // Tab bars list here
+                    TabbarTabs(tabController: _tabController),
+                    SizedBox(height: 3.h),
+                    // tab bar view here
+                    TabBarViews(tabController: _tabController),
+                  ],
                 ),
-                SizedBox(height: 1.h),
-                Text(
-                  "New offers from ReaderClub",
-                  style:
-                      TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500),
-                ),
-                SizedBox(height: 4.h),
-                // carousel list here
-                FadeIn(child: const Carousel()),
-                SizedBox(height: 3.h),
-                // Tab bars list here
-                TabbarTabs(tabController: _tabController),
-                SizedBox(height: 3.h),
-                // tab bar view here
-                TabBarViews(tabController: _tabController),
-              ],
+              ),
             ),
           ),
         ));
+  }
+}
+
+class CustTextform extends StatelessWidget {
+  const CustTextform({
+    Key? key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      decoration: BoxDecoration(
+        color: Color.fromARGB(255, 204, 204, 204),
+        borderRadius: BorderRadius.circular(10.w)
+      ),
+      child: Padding(
+        padding:  EdgeInsets.only(left: 3.w),
+        child: TextFormField(
+          readOnly: true,
+          onTap: () {
+            Navigator.push(context, PageTransition(child: SearchScreen(), type: PageTransitionType.fade));
+          },
+          cursorColor: Colors.black,
+          decoration: const InputDecoration(
+            border: InputBorder.none,
+            hintText: "Search Book",
+
+            fillColor: Colors.grey,
+            focusColor: Colors.grey,
+            
+            
+          ),
+        ),
+      ),
+    );
   }
 }

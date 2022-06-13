@@ -1,4 +1,3 @@
-import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -6,18 +5,18 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:pinput/pinput.dart';
+import 'package:readerclub/Presentation/User%20session/Login%20page/Forget%20Password/Resetpassword.dart';
 import 'package:readerclub/Presentation/User%20session/home%20screen/homescreen.dart';
 import 'package:readerclub/logic/LoadingBloc/loadingbloc_bloc.dart';
 import 'package:readerclub/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
-import 'package:http/http.dart' as http;
 
 import '../widget/widgets.dart';
 
-class OtpPage extends StatelessWidget {
+class OtpForgotPass extends StatelessWidget {
   final TextEditingController phcontroller;
-  OtpPage({required this.phcontroller, Key? key}) : super(key: key);
+  OtpForgotPass({required this.phcontroller, Key? key}) : super(key: key);
 
   TextEditingController otpController = TextEditingController();
 
@@ -107,11 +106,13 @@ class OtpPage extends StatelessWidget {
                                   child: _RegisterButton(
                                     ontap: () {
                                       if (formKey.currentState!.validate()) {
-                                        context.read<LoadingblocBloc>().add(
-                                            CircularOtpVerifyEvent(
-                                                isOtpVerify: true));
+                                        Navigator.push(
+                                            context,
+                                            PageTransition(
+                                                child: ResetPassword(
+                                                   ),
+                                                type: PageTransitionType.fade));
 
-                                        otpVerification(context);
                                       }
                                     },
                                   ),
@@ -134,86 +135,86 @@ class OtpPage extends StatelessWidget {
     );
   }
 
-  Future otpVerification(BuildContext context) async {
-    Dio dio = Dio();
-    var apiurl = ("https://readerclub.store/api/auth/otpverify");
-    Map mapDatas = {
-      "otp": otpController.text,
-      "mobile": phcontroller.text,
-    };
-    try {
-      Response response = await dio.post(apiurl, data: mapDatas);
-      print("response is ${response.data}");
-      print("status code is ${response.statusCode}");
-      if (response.statusCode == 200) {
-        final SharedPreferences sharedPreferences =
-            await SharedPreferences.getInstance();
-        sharedPreferences.setBool(savedKey, true);
-        context
-            .read<LoadingblocBloc>()
-            .add(CircularOtpVerifyEvent(isOtpVerify: false));
+//   Future otpVerification(BuildContext context) async {
+//     Dio dio = Dio();
+//     var apiurl = ("https://readerclub.store/api/auth/otpverify");
+//     Map mapDatas = {
+//       "otp": otpController.text,
+//       "mobile": phcontroller.text,
+//     };
+//     try {
+//       Response response = await dio.post(apiurl, data: mapDatas);
+//       print("response is ${response.data}");
+//       print("status code is ${response.statusCode}");
+//       if (response.statusCode == 200) {
+//         final SharedPreferences sharedPreferences =
+//             await SharedPreferences.getInstance();
+//         sharedPreferences.setBool(savedKey, true);
+//         context
+//             .read<LoadingblocBloc>()
+//             .add(CircularOtpVerifyEvent(isOtpVerify: false));
 
-        Navigator.pushAndRemoveUntil(
-            context,
-            PageTransition(
-                child: const HomeScreen(), type: PageTransitionType.fade),
-            (route) => false);
-      }
-       else {
-        print(response.statusCode);
-        throw DioError;
-      }
-    } catch (e) {
-      if (e is DioError) {
-        context
-            .read<LoadingblocBloc>()
-            .add(CircularOtpVerifyEvent(isOtpVerify: false));
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          duration: const Duration(seconds: 2),
-          behavior: SnackBarBehavior.floating,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-          content: Text(
-            e.response!.data["msg"].toString(),
-            style: TextStyle(
-                fontFamily: "poppinz",
-                fontSize: 12.sp,
-                fontWeight: FontWeight.bold),
-          ),
-          backgroundColor: const Color.fromARGB(255, 141, 8, 8),
-        ));
+//         Navigator.pushAndRemoveUntil(
+//             context,
+//             PageTransition(
+//                 child: const HomeScreen(), type: PageTransitionType.fade),
+//             (route) => false);
+//       }
+//        else {
+//         print(response.statusCode);
+//         throw DioError;
+//       }
+//     } catch (e) {
+//       if (e is DioError) {
+//         context
+//             .read<LoadingblocBloc>()
+//             .add(CircularOtpVerifyEvent(isOtpVerify: false));
+//         ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+//           duration: const Duration(seconds: 2),
+//           behavior: SnackBarBehavior.floating,
+//           shape:
+//               RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+//           content: Text(
+//             e.response!.data["msg"].toString(),
+//             style: TextStyle(
+//                 fontFamily: "poppinz",
+//                 fontSize: 12.sp,
+//                 fontWeight: FontWeight.bold),
+//           ),
+//           backgroundColor: const Color.fromARGB(255, 141, 8, 8),
+//         ));
 
-        print("error is ${e.response!.data.toString()}");
-      }
-    }
-  }
+//         print("error is ${e.response!.data.toString()}");
+//       }
+//     }
+//   }
 }
 
-// Future otpVerification(BuildContext context) async {
-//   var apiUrl = Uri.parse("https://readerclub.store/api/auth/otpverify");
+// // Future otpVerification(BuildContext context) async {
+// //   var apiUrl = Uri.parse("https://readerclub.store/api/auth/otpverify");
 
-//   Map mapDatas = {
-//     "otp": otpController.text,
-//     "mobile": phcontroller.text,
-//   };
-//   //  print("${otpController.text}");
-//   http.Response response = await http.post(apiUrl, body: mapDatas);
-//   // print("${response.statusCode}");
+// //   Map mapDatas = {
+// //     "otp": otpController.text,
+// //     "mobile": phcontroller.text,
+// //   };
+// //   //  print("${otpController.text}");
+// //   http.Response response = await http.post(apiUrl, body: mapDatas);
+// //   // print("${response.statusCode}");
 
-//   if (response.statusCode == 200) {
-//     final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-//   sharedPreferences.setBool(savedKey, true);
-//     var dataS = jsonDecode(response.body);
+// //   if (response.statusCode == 200) {
+// //     final SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+// //   sharedPreferences.setBool(savedKey, true);
+// //     var dataS = jsonDecode(response.body);
 
-//     print('DATAAS $dataS');
-//     Navigator.pushAndRemoveUntil(
-//         context,
-//         PageTransition(child: HomeScreen(), type: PageTransitionType.fade),
-//         (route) => false);
-//   } else {
-//     print("wrong Otp");
-//   }
-// }
+// //     print('DATAAS $dataS');
+// //     Navigator.pushAndRemoveUntil(
+// //         context,
+// //         PageTransition(child: HomeScreen(), type: PageTransitionType.fade),
+// //         (route) => false);
+// //   } else {
+// //     print("wrong Otp");
+// //   }
+// // }
 
 final defaultPinTheme = PinTheme(
     width: 18.w,

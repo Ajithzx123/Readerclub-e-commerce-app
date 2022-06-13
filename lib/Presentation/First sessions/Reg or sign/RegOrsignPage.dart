@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:readerclub/Presentation/widgets/error.dart';
 
 import 'package:readerclub/logic/nav_bloc/bloc/navbloc_bloc.dart';
 

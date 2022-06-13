@@ -80,7 +80,7 @@ class AdminLogin extends StatelessWidget {
                       textinputtype: TextInputType.name,
                       obscure: false,
                       controller: usernameController,
-                      hinttext: "Username"),
+                      hinttext: "Username", labeltext: 'Username',),
                 ),
                 SizedBox(height: 2.h),
                 FadeInRight(
@@ -97,7 +97,7 @@ class AdminLogin extends StatelessWidget {
                       textinputtype: TextInputType.name,
                       obscure: true,
                       controller: passwordController,
-                      hinttext: "Password"),
+                      hinttext: "Password", labeltext: 'Password',),
                 ),
                 SizedBox(height: 1.h),
                 Align(

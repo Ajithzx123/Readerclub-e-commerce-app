@@ -1,19 +1,19 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:readerclub/Presentation/User%20session/Login%20page/LoginPage.dart';
+import 'package:readerclub/Presentation/widgets/textfromWidget.dart';
 
 import 'package:sizer/sizer.dart';
 
 import '../../../../logic/LoadingBloc/loadingbloc_bloc.dart';
-import '../widget/widgets.dart';
-import 'OtpPage.dart';
 
-class PhoneLogin extends StatelessWidget {
-  PhoneLogin({Key? key}) : super(key: key);
+class ResetPassword extends StatelessWidget {
+  ResetPassword({Key? key}) : super(key: key);
 
-  TextEditingController phonecontroller = TextEditingController();
+  TextEditingController passwordController = TextEditingController();
+  TextEditingController confirmPasswordController = TextEditingController();
 
   final formKey = GlobalKey<FormState>();
 
@@ -26,9 +26,9 @@ class PhoneLogin extends StatelessWidget {
         iconTheme: const IconThemeData(color: Colors.black),
       ),
       body: SafeArea(
-          child: ListView(
-              physics: const ClampingScrollPhysics(
-                  parent: NeverScrollableScrollPhysics()),
+          child: ListView(shrinkWrap: true,
+              // physics: const ClampingScrollPhysics(
+              //     parent: NeverScrollableScrollPhysics()),
               children: [
             Padding(
               padding: EdgeInsets.all(2.w),
@@ -42,13 +42,13 @@ class PhoneLogin extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Lottie.asset(
-                            "Assets/login/phone otp page/otp.json",
+                            "Assets/login/resetPassword.json",
                             height: 40.h,
                             alignment: Alignment.centerLeft,
                             addRepaintBoundary: false,
                           ),
                           Text(
-                            "Enter Your Phone Number",
+                            "Reset Password..",
                             style: TextStyle(
                                 fontSize: 23.sp, fontWeight: FontWeight.bold),
                           ),
@@ -56,24 +56,35 @@ class PhoneLogin extends StatelessWidget {
                             height: 1.5.h,
                           ),
                           Text(
-                            "You'll recieve a 4-digit  code for the  Phone Number verification",
+                            "Enter your new strong password that you dont forget",
                             style: TextStyle(
                                 fontSize: 13.sp, fontWeight: FontWeight.w600),
                           ),
                           SizedBox(
-                            height: 7.h,
+                            height: 5.h,
                           ),
-                          CustomTextformfield(
-                            controller: phonecontroller,
-                            validator: ((numbervalue) {
-                              if (numbervalue.length != 10) {
-                                return 'Mobile Number must be of 10 digit';
-                              }
-                              return null;
-                            }),
-                          ),
+
+                          CustomText(
+                              validator: (value) {},
+                              textinputaction: TextInputAction.next,
+                              textinputtype: TextInputType.name,
+                              obscure: true,
+                              controller: passwordController,
+                              hinttext: "Password",
+                              labeltext: "Password"),
                           SizedBox(
                             height: 2.h,
+                          ),
+                          CustomText(
+                              validator: (value) {},
+                              textinputaction: TextInputAction.done,
+                              textinputtype: TextInputType.name,
+                              obscure: true,
+                              controller: confirmPasswordController,
+                              hinttext: "Confirm Password",
+                              labeltext: "Confirm Password"),
+                          SizedBox(
+                            height: 4.h,
                           ),
                           Center(
                             child:
@@ -85,10 +96,11 @@ class PhoneLogin extends StatelessWidget {
                                   return _RegisterButton(
                                     ontap: () {
                                       if (formKey.currentState!.validate()) {
-                                        context.read<LoadingblocBloc>().add(
-                                            CircularOtpPhoneEvent(
-                                                isOtpLoading: true));
-                                        phoneVerification(context);
+                                        Navigator.push(
+                                            context,
+                                            PageTransition(
+                                                child: LoginPage(),
+                                                type: PageTransitionType.fade));
                                       }
                                     },
                                   );
@@ -96,10 +108,10 @@ class PhoneLogin extends StatelessWidget {
                               },
                             ),
                           ),
-                          SizedBox(
-                            height: 12.h,
-                          ),
-                          const RegisterDontHaveAccount()
+                          // SizedBox(
+                          //   height: 12.h,
+                          // ),
+                          // const RegisterDontHaveAccount()
                         ],
                       ),
                     ),
@@ -110,78 +122,6 @@ class PhoneLogin extends StatelessWidget {
           ])),
     );
   }
-
-  Future phoneVerification(BuildContext context) async {
-    Dio dio = Dio();
-    var apiData = ("https://readerclub.store/api/auth/otplogin");
-
-    Map mapDatas = {
-      "mobile": phonecontroller.text,
-    };
-    try {
-      final Response response = await dio.post(apiData, data: mapDatas);
-      print(response.data);
-
-      if (response.statusCode == 200) {
-        context
-            .read<LoadingblocBloc>()
-            .add(CircularLoadingEvent(isLoading: false));
-
-        Navigator.push(
-            context,
-            PageTransition(
-                child: OtpPage(phcontroller: phonecontroller),
-                type: PageTransitionType.fade));
-      } else {
-        throw DioError;
-      }
-    } catch (e) {
-      if (e is DioError) {
-        context
-            .read<LoadingblocBloc>()
-            .add(CircularLoadingEvent(isLoading: false));
-        print(e.response!.data.toString());
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          duration: const Duration(seconds: 2),
-          behavior: SnackBarBehavior.floating,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-          content: Text(
-            e.response!.data["msg"].toString(),
-            style: TextStyle(
-                fontFamily: "poppinz",
-                fontSize: 12.sp,
-                fontWeight: FontWeight.bold),
-          ),
-          backgroundColor: const Color.fromARGB(255, 141, 8, 8),
-        ));
-      }
-    }
-  }
-
-//   Future phoneVerification(BuildContext context) async {
-//     var apiUrl = Uri.parse("https://readerclub.store/api/auth/otplogin");
-
-//     Map mapDatas = {
-//       "mobile": phonecontroller.text,
-//     };
-//     print("JSON DATA $mapDatas");
-
-//     http.Response response = await http.post(apiUrl, body: mapDatas);
-
-//     if (response.statusCode == 200) {
-//       var dataS = jsonDecode(response.body);
-
-//       print('DATAAS $dataS');
-//       Navigator.push(
-//           context,
-//           PageTransition(
-//               child: OtpPage(phcontroller: phonecontroller),
-//               type: PageTransitionType.fade));
-//     } else {
-//       print("No phone number");
-//     }
-//   }
 }
 
 class _RegisterButton extends StatelessWidget {

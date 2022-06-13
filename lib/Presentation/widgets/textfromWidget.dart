@@ -10,12 +10,14 @@ class CustomText extends StatelessWidget {
     required this.obscure,
     required this.controller,
     required this.hinttext,
+    required this.labeltext
   }) : super(key: key);
 
   final TextInputType? textinputtype;
   final bool? obscure;
   final FormFieldValidator validator;
   final TextEditingController controller;
+  final String labeltext;
   final String hinttext;
   final TextInputAction textinputaction;
 
@@ -25,11 +27,14 @@ class CustomText extends StatelessWidget {
       keyboardType: textinputtype,
       obscureText: obscure ?? false,
       controller: controller,
+      
       validator: validator,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       enableSuggestions: true,
       textInputAction: textinputaction,
       decoration: InputDecoration(
+          labelText: labeltext,
+          labelStyle: TextStyle(color: Colors.black),
           hintText: hinttext,
           hintStyle: TextStyle(fontSize: 12.sp),
           errorBorder: OutlineInputBorder(

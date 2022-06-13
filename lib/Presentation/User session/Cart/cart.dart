@@ -23,7 +23,7 @@ class Cart extends StatelessWidget {
           Column(
             children: [
               Center(
-                child: Text(
+                child: Text( 
                   "My Cart",
                   style:
                       TextStyle(fontSize: 30.sp, fontWeight: FontWeight.w900),
