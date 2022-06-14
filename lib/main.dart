@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:readerclub/Presentation/First%20sessions/Splash%20Screen/splash%20screen.dart';
-import 'package:readerclub/logic/LoadingBloc/loadingbloc_bloc.dart';
-import 'package:readerclub/logic/nav_bloc/bloc/navbloc_bloc.dart';
+import 'package:get/get.dart';
+
 import 'package:sizer/sizer.dart';
+
+import 'View/First sessions/Splash Screen/splash screen.dart';
 
 const savedKey = "value is saved";
 const onboardKey = "value is also saved";
@@ -19,22 +19,11 @@ class MyApp extends StatelessWidget {
     return Sizer(
       builder: (BuildContext context, Orientation orientation,
           DeviceType deviceType) {
-        return  MultiBlocProvider(
-          providers: [
-          
-            
-            BlocProvider(
-              create: (context) => NavblocBloc(),
-            ),
-            BlocProvider(
-              create: (context) => LoadingblocBloc(),
-            )
-          ],
-          child: const  MaterialApp(
+        return     GetMaterialApp(
             debugShowCheckedModeBanner: false,
             home: SplashScreen(),
-          ),
-        );
+          );
+        
       },
     );
   }
