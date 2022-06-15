@@ -1,71 +1,46 @@
-
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:page_transition/page_transition.dart';
-
-
+import 'package:readerclub/Controller/login.dart';
 import 'package:readerclub/View/User%20session/Login%20page/widget/widgets.dart';
-
-
 import 'package:sizer/sizer.dart';
-
-
 import '../../First sessions/Reg or sign/RegOrsignPage.dart';
 import '../../widgets/textfromWidget.dart';
-import '../home screen/homescreen.dart';
 import 'Forget Password/forgotPassword.dart';
 import 'OtpLogin/phoneLogin.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({Key? key}) : super(key: key);
 
-  TextEditingController usernamecontroller = TextEditingController();
-  TextEditingController passwordcontroller = TextEditingController();
   final formKey = GlobalKey<FormState>();
+  final loginController = LoginController();
   //  bool progress =false;
 
   @override
   Widget build(BuildContext context) {
-    return
-    //  BlocListener<NavblocBloc, NavblocState>(
-    //   listener: (context, state) {
-    //     if (state is BackToRegorSignstate) {
-    //       Navigator.push(
-    //         context,
-    //         PageTransition(
-    //             child: const RegOrSigninPage(), type: PageTransitionType.fade),
-    //       );
-    //     } else if (state is NavToHomeScreenState) {
-    //       Navigator.pushAndRemoveUntil(
-    //           context,
-    //           PageTransition(
-    //               child: HomeScreen(), type: PageTransitionType.fade),
-    //           (route) => false);
-    //     }
-    //   },
-       Scaffold(
-        backgroundColor: Colors.white,
-        body: SafeArea(
+    return Scaffold(
+      backgroundColor: Colors.white,
+      body: SafeArea(
           child: SingleChildScrollView(
-            child: Column(
-              children: [
-                Padding(
-                  padding: EdgeInsets.only(left: 2.w),
-                  child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: IconButton(
-                        icon: const Icon(Icons.arrow_back),
-                        onPressed: () {
-                          // context
-                          //     .read<NavblocBloc>()
-                          //     .add(BackToRegOrSignEvent());
-                        },
-                      )),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(left: 10.w, right: 10.w),
-                  child: Form(
+        child: Column(
+          children: [
+            Padding(
+              padding: EdgeInsets.only(left: 2.w),
+              child: Align(
+                  alignment: Alignment.centerLeft,
+                  child: IconButton(
+                    icon: const Icon(Icons.arrow_back),
+                    onPressed: () {
+                      Get.to(() => RegOrSigninPage());
+                    },
+                  )),
+            ),
+            Padding(
+                padding: EdgeInsets.only(left: 10.w, right: 10.w),
+                child: GetBuilder<LoginController>(builder: (controller) {
+                  return Form(
                     key: formKey,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -98,7 +73,7 @@ class LoginPage extends StatelessWidget {
                             textinputaction: TextInputAction.next,
                             textinputtype: TextInputType.name,
                             obscure: false,
-                            controller: usernamecontroller,
+                            controller: controller.usernamecontroller,
                             hinttext: "Username",
                             labeltext: 'Username',
                           ),
@@ -117,7 +92,7 @@ class LoginPage extends StatelessWidget {
                             textinputaction: TextInputAction.done,
                             textinputtype: TextInputType.name,
                             obscure: true,
-                            controller: passwordcontroller,
+                            controller: controller.passwordcontroller,
                             hinttext: "Password",
                             labeltext: 'Password',
                           ),
@@ -127,45 +102,42 @@ class LoginPage extends StatelessWidget {
                           alignment: Alignment.topRight,
                           child: FadeInRight(
                             child: GestureDetector(
-                              onTap: (){
-                              Navigator.push(context, PageTransition(child: ForgetPassPhone(), type: PageTransitionType.fade));
+                              onTap: () {
+                                Get.to(ForgetPassPhone());
                               },
                               child: Text(
                                 "Forgot Password",
                                 style: TextStyle(
-                                    fontSize: 12.sp, fontWeight: FontWeight.bold),
+                                    fontSize: 12.sp,
+                                    fontWeight: FontWeight.bold),
                               ),
                             ),
                           ),
                         ),
                         SizedBox(height: 5.h),
-                     
-                               Center(
-                                  child: FadeInLeft(
-                                child: CustombuttonLogin(
-                                  iconcolor: Colors.white,
-                                  cusIcons: Icons.login,
-                                  textcolor: Colors.white,
-                                  width: 35.w,
-                                  text: "Sign In",
-                                  onpressed: () {
-                                    if (formKey.currentState!.validate()) {
-                                     
-                                      // loginData(context);
-                                    }
-                                  },
-                                  colours: const [
-                                    Color.fromRGBO(166, 210, 255, 1),
-                                    Color.fromARGB(255, 0, 139, 225)
-                                  ],
-                                ),
-                              ),
-                               ),
-                                  //
-                                  
-                            
-                          
-                      
+
+                        Center(
+                          child: FadeInLeft(
+                            child: CustombuttonLogin(
+                              iconcolor: Colors.white,
+                              cusIcons: Icons.login,
+                              textcolor: Colors.white,
+                              width: 35.w,
+                              text: "Sign In",
+                              onpressed: () {
+                                if (formKey.currentState!.validate()) {
+                                  controller.loginData();
+                                }
+                              },
+                              colours: const [
+                                Color.fromRGBO(166, 210, 255, 1),
+                                Color.fromARGB(255, 0, 139, 225)
+                              ],
+                            ),
+                          ),
+                        ),
+                        //
+
                         SizedBox(height: 2.h),
                         Center(
                             child: FadeInLeft(
@@ -201,15 +173,12 @@ class LoginPage extends StatelessWidget {
                         const RegisterDontHaveAccount(),
                       ],
                     ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+                  );
+                })),
+          ],
         ),
-      );
-    
-  
+      )),
+    );
 
 //   Future LoginData(BuildContext context) async {
 //     var apiData = Uri.parse("https://readerclub.store/api/auth/login");
@@ -256,6 +225,5 @@ class LoginPage extends StatelessWidget {
 //       }
 //     } catch (e) {}
 //   }
-
-}
+  }
 }

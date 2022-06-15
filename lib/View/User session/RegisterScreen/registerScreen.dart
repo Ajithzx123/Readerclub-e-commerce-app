@@ -2,7 +2,10 @@ import 'dart:convert';
 
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:readerclub/Controller/Register.dart';
+import 'package:readerclub/Controller/login.dart';
 
 import 'package:readerclub/View/User%20session/RegisterScreen/widget/widgets.dart';
 import 'package:readerclub/main.dart';
@@ -15,17 +18,18 @@ import '../../User session/home screen/homescreen.dart';
 class RegisterScreen extends StatelessWidget {
   RegisterScreen({Key? key}) : super(key: key);
 
-  TextEditingController nameController = TextEditingController();
+  // TextEditingController nameController = TextEditingController();
 
-  TextEditingController usernameController = TextEditingController();
+  // TextEditingController usernameController = TextEditingController();
 
-  TextEditingController emailController = TextEditingController();
+  // TextEditingController emailController = TextEditingController();
 
-  TextEditingController phoneController = TextEditingController();
+  // TextEditingController phoneController = TextEditingController();
 
-  TextEditingController passwordController = TextEditingController();
+  // TextEditingController passwordController = TextEditingController();
 
-  TextEditingController confirmPasswordController = TextEditingController();
+  // TextEditingController confirmPasswordController = TextEditingController();
+  final registercontroller = Get.put(RegisterController());
   int pageindex = 0;
   final formKey = GlobalKey<FormState>();
   bool pageviewbutton = false;
@@ -33,17 +37,16 @@ class RegisterScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final PageController pageViewcontroller = PageController(initialPage: 0);
-    return
-       
-        Scaffold(
+    return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         shadowColor: Colors.transparent,
         iconTheme: const IconThemeData(color: Colors.black),
       ),
       backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Form(
+      body:
+          SafeArea(child: GetBuilder<RegisterController>(builder: (controller) {
+        return Form(
           key: formKey,
           child: ListView(
               physics: const ClampingScrollPhysics(
@@ -80,8 +83,8 @@ class RegisterScreen extends StatelessWidget {
                           }
                           return null;
                         }),
-                        firstcontroller: nameController,
-                        secondcontroller: usernameController,
+                        firstcontroller: controller.nameController,
+                        secondcontroller: controller.usernameController,
                         textInputActionNext: TextInputAction.next,
                         textInputActionDone: TextInputAction.done,
                         hinttext1: "Name",
@@ -107,8 +110,8 @@ class RegisterScreen extends StatelessWidget {
                           }
                           return null;
                         }),
-                        firstcontroller: emailController,
-                        secondcontroller: phoneController,
+                        firstcontroller: controller.emailController,
+                        secondcontroller: controller.phoneController,
                         hinttext1: "Email",
                         textInputActionNext: TextInputAction.next,
                         textInputActionDone: TextInputAction.done,
@@ -129,15 +132,16 @@ class RegisterScreen extends StatelessWidget {
                           }
                         }),
                         secondvalidate: ((confirmvalue) {
-                          if (confirmvalue != passwordController.text) {
+                          if (confirmvalue !=
+                              registercontroller.passwordController.text) {
                             return "please enter same password";
                           }
                           if (confirmvalue == null) {
                             return "please confirm password";
                           }
                         }),
-                        firstcontroller: passwordController,
-                        secondcontroller: confirmPasswordController,
+                        firstcontroller: controller.passwordController,
+                        secondcontroller: controller.confirmPasswordController,
                         obscure: true,
                         textInputActionNext: TextInputAction.next,
                         textInputActionDone: TextInputAction.done,
@@ -161,7 +165,10 @@ class RegisterScreen extends StatelessWidget {
                               ? Builder(builder: (context) {
                                   return GestureDetector(
                                       onTap: () {
-                                       pageViewcontroller.previousPage(duration: const Duration(milliseconds: 700), curve: Curves.ease);
+                                        pageViewcontroller.previousPage(
+                                            duration: const Duration(
+                                                milliseconds: 700),
+                                            curve: Curves.ease);
                                         pageindex--;
                                       },
                                       child: PageViewNextButton(
@@ -170,6 +177,8 @@ class RegisterScreen extends StatelessWidget {
                                 })
                               : Container(),
                           // Text("haii"),
+                         
+
                           pageindex == 2
                               // ? RegisterButton(formKey: formKey)
                               ? Align(
@@ -182,7 +191,7 @@ class RegisterScreen extends StatelessWidget {
                                           onTap: () {
                                             if (formKey.currentState!
                                                 .validate()) {
-                                              registerationUser(context);
+                                              controller.registerationUser();
                                             }
                                           },
                                           child: Container(
@@ -219,7 +228,10 @@ class RegisterScreen extends StatelessWidget {
                                     child: GestureDetector(
                                       onTap: () {
                                         if (formKey.currentState!.validate()) {
-                                          pageViewcontroller.nextPage(duration: const Duration(milliseconds: 700), curve: Curves.ease);
+                                          pageViewcontroller.nextPage(
+                                              duration: const Duration(
+                                                  milliseconds: 700),
+                                              curve: Curves.ease);
                                           pageindex++;
                                         } else {
                                           return;
@@ -240,40 +252,8 @@ class RegisterScreen extends StatelessWidget {
                   ),
                 ),
               ]),
-        ),
-      ),
+        );
+      })),
     );
-  }
-
-  Future registerationUser(BuildContext context) async {
-    var apiUrl = Uri.parse("https://readerclub.store/api/auth/register");
-
-    Map mapDatas = {
-      "name": nameController.text,
-      "username": usernameController.text,
-      "email": emailController.text,
-      "mobile": phoneController.text,
-      "password": passwordController.text,
-      "cpassword": confirmPasswordController.text,
-    };
-    print("JSON DATA ${mapDatas}");
-
-    http.Response response = await http.post(apiUrl, body: mapDatas);
-    if (response.statusCode == 200) {
-      final SharedPreferences sharedPreferences =
-          await SharedPreferences.getInstance();
-      sharedPreferences.setBool(savedKey, true);
-      var dataS = jsonDecode(response.body);
-
-      print('DATAAS ${dataS}');
-
-      Navigator.push(
-        context,
-        PageTransition(
-          child: HomeScreen(),
-          type: PageTransitionType.fade,
-        ),
-      );
-    }
   }
 }
