@@ -1,14 +1,14 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:readerclub/View/User%20session/home%20screen/homescreen.dart';
+import 'package:readerclub/View/widgets/snackbar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 import '../main.dart';
 
 class RegisterController extends GetxController {
+  int pageindex = 0;
   late TextEditingController nameController,
       usernameController,
       emailController,
@@ -34,7 +34,9 @@ class RegisterController extends GetxController {
 
   @override
   void onClose() {
+
     super.onClose();
+   
     nameController.dispose();
     usernameController.dispose();
     emailController.dispose();
@@ -42,9 +44,8 @@ class RegisterController extends GetxController {
     passwordController.dispose();
     confirmPasswordController.dispose();
   }
-  
-  
-   registerationUser( ) async {
+
+  registerationUser() async {
     Dio dio = Dio();
     var apiUrl = ("https://readerclub.store/api/auth/register");
 
@@ -56,31 +57,26 @@ class RegisterController extends GetxController {
       "password": passwordController.text,
       "cpassword": confirmPasswordController.text,
     };
-    // print("JSON DATA ${mapDatas}");
-try {
-  final  response = await dio.post(apiUrl,data: mapDatas);
-  // print("respons is   ......... ${response.data}");
-    if (response.statusCode == 201) {
-      final SharedPreferences sharedPreferences =
-          await SharedPreferences.getInstance();
-      sharedPreferences.setBool(savedKey, true);
-      var dataS = jsonDecode(response.data);
+    try {
+      final response = await dio.post(apiUrl, data: mapDatas);
+      if (response.statusCode == 200) {
+        customSnackbar("Success", "Registered Successfully", "success");
 
-      print('DATAAS $dataS');
-      print("response is .... ${response.data}");
+        final SharedPreferences sharedPreferences =
+            await SharedPreferences.getInstance();
+        sharedPreferences.setBool(savedKey, true);
 
-     Get.offAll( const HomeScreen(),transition: Transition.fade);
-      
+        Get.offAll(const HomeScreen(), transition: Transition.fade);
+      } else {
+        throw DioError;
+      }
+    } catch (e) {
+      if (e is DioError) {
+        customSnackbar(
+            "Error",
+            e.response!.data["user"] ?? e.response!.data["username"].toString(),
+            "error");
+      }
     }
-    else{
-     throw DioError;
-    }
-} catch (e) {
-  if(e is DioError ){
-    print("error is......${e.response!.data.toString()}");
   }
-}
-  
-  }
-  
 }

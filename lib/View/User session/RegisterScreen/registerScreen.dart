@@ -29,13 +29,14 @@ class RegisterScreen extends StatelessWidget {
   // TextEditingController passwordController = TextEditingController();
 
   // TextEditingController confirmPasswordController = TextEditingController();
-  final registercontroller = Get.put(RegisterController());
-  int pageindex = 0;
+ 
+  
   final formKey = GlobalKey<FormState>();
   bool pageviewbutton = false;
 
   @override
   Widget build(BuildContext context) {
+     final registercontroller = Get.put(RegisterController());
     final PageController pageViewcontroller = PageController(initialPage: 0);
     return Scaffold(
       appBar: AppBar(
@@ -64,7 +65,8 @@ class RegisterScreen extends StatelessWidget {
                   height: 70.h,
                   child: PageView(
                     onPageChanged: (index) {
-                      pageindex = index;
+                    controller.  pageindex = index;
+                    controller.update();
                     },
                     physics: const NeverScrollableScrollPhysics(),
                     scrollDirection: Axis.horizontal,
@@ -161,7 +163,7 @@ class RegisterScreen extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          pageindex >= 1
+                       controller.   pageindex >= 1
                               ? Builder(builder: (context) {
                                   return GestureDetector(
                                       onTap: () {
@@ -169,7 +171,7 @@ class RegisterScreen extends StatelessWidget {
                                             duration: const Duration(
                                                 milliseconds: 700),
                                             curve: Curves.ease);
-                                        pageindex--;
+                                       controller. pageindex--;
                                       },
                                       child: PageViewNextButton(
                                         icon: Icons.arrow_back_ios,
@@ -177,9 +179,9 @@ class RegisterScreen extends StatelessWidget {
                                 })
                               : Container(),
                           // Text("haii"),
-                         
+                          
 
-                          pageindex == 2
+                        controller. pageindex == 2
                               // ? RegisterButton(formKey: formKey)
                               ? Align(
                                   alignment: Alignment.bottomCenter,
@@ -232,7 +234,7 @@ class RegisterScreen extends StatelessWidget {
                                               duration: const Duration(
                                                   milliseconds: 700),
                                               curve: Curves.ease);
-                                          pageindex++;
+                                         controller. pageindex++;
                                         } else {
                                           return;
                                         }

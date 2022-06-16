@@ -15,11 +15,13 @@ class LoginPage extends StatelessWidget {
   LoginPage({Key? key}) : super(key: key);
 
   final formKey = GlobalKey<FormState>();
-  final loginController = LoginController();
+ 
   //  bool progress =false;
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(LoginController());
+  
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(

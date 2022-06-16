@@ -1,9 +1,10 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:page_transition/page_transition.dart';
-
+import 'package:readerclub/Controller/HomeScreeen.dart';
+import 'package:readerclub/Controller/login.dart';
 import 'package:sizer/sizer.dart';
-
 import 'custom widgets/Custom Tab bar.dart';
 import 'custom widgets/SearchScreen.dart';
 import 'custom widgets/carouselCustom.dart';
@@ -34,8 +35,11 @@ class _HomeScreenState extends State<HomeScreen>
     super.dispose();
     _tabController.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
+    final controller = Get.put(LoginController());
+    final Offercontroller = Get.put(HomeScreenController());
     return Scaffold(
         drawer: const SideDrawer(),
         body: SafeArea(
@@ -47,28 +51,27 @@ class _HomeScreenState extends State<HomeScreen>
                 height: MediaQuery.of(context).size.height,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
-                  
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // top icons here
+
                     const Topicons(),
                     SizedBox(height: 5.h),
-                    
                     Text(
-                      "Hi Ajith!",
-                      style:
-                          TextStyle(fontSize: 25.sp, fontWeight: FontWeight.w900),
+                    "Hii ${controller.name}!" ,
+                      style: TextStyle(
+                          fontSize: 25.sp, fontWeight: FontWeight.w900),
                     ),
                     SizedBox(height: 1.h),
                     Text(
                       "New offers from ReaderClub",
-                      style:
-                          TextStyle(fontSize: 14.sp, fontWeight: FontWeight.w500),
+                      style: TextStyle(
+                          fontSize: 14.sp, fontWeight: FontWeight.w500),
                     ),
                     SizedBox(height: 3.h),
-                   const CustTextform(),
-                                    SizedBox(height: 3.h),
-                
+                    const CustTextform(),
+                    SizedBox(height: 3.h),
+
                     // carousel list here
                     FadeIn(child: const Carousel()),
                     SizedBox(height: 3.h),
@@ -95,25 +98,24 @@ class CustTextform extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        color: Color.fromARGB(255, 204, 204, 204),
-        borderRadius: BorderRadius.circular(10.w)
-      ),
+          color: Color.fromARGB(255, 204, 204, 204),
+          borderRadius: BorderRadius.circular(10.w)),
       child: Padding(
-        padding:  EdgeInsets.only(left: 3.w),
+        padding: EdgeInsets.only(left: 3.w),
         child: TextFormField(
           readOnly: true,
           onTap: () {
-            Navigator.push(context, PageTransition(child: SearchScreen(), type: PageTransitionType.fade));
+            Navigator.push(
+                context,
+                PageTransition(
+                    child: SearchScreen(), type: PageTransitionType.fade));
           },
           cursorColor: Colors.black,
           decoration: const InputDecoration(
             border: InputBorder.none,
             hintText: "Search Book",
-
             fillColor: Colors.grey,
             focusColor: Colors.grey,
-            
-            
           ),
         ),
       ),
