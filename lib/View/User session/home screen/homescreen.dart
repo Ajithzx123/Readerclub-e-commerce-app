@@ -1,9 +1,11 @@
+import 'dart:convert';
+
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:readerclub/Controller/HomeScreeen.dart';
-import 'package:readerclub/Controller/login.dart';
+import 'package:readerclub/Controller/loginController.dart';
+import 'package:readerclub/Model/shared_prefrences.dart';
 import 'package:sizer/sizer.dart';
 import 'custom widgets/Custom Tab bar.dart';
 import 'custom widgets/SearchScreen.dart';
@@ -12,7 +14,9 @@ import 'custom widgets/side Drawer.dart';
 import 'custom widgets/widgets.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -24,9 +28,15 @@ class _HomeScreenState extends State<HomeScreen>
   late TabController _tabController;
   bool isopened = false;
 
+//  late SharedPreferences sharedPreferences;
+  Map userDetails = {};
+
   @override
   void initState() {
     _tabController = TabController(length: 6, vsync: this);
+
+    userDetails = SharedPrefrenceModel.getString('userDetails');
+
     super.initState();
   }
 
@@ -36,10 +46,11 @@ class _HomeScreenState extends State<HomeScreen>
     _tabController.dispose();
   }
 
+
   @override
   Widget build(BuildContext context) {
     final controller = Get.put(LoginController());
-    final Offercontroller = Get.put(HomeScreenController());
+
     return Scaffold(
         drawer: const SideDrawer(),
         body: SafeArea(
@@ -58,7 +69,7 @@ class _HomeScreenState extends State<HomeScreen>
                     const Topicons(),
                     SizedBox(height: 5.h),
                     Text(
-                    "Hii ${controller.name}!" ,
+                      "Hii ${userDetails['user']['name']} !",
                       style: TextStyle(
                           fontSize: 25.sp, fontWeight: FontWeight.w900),
                     ),

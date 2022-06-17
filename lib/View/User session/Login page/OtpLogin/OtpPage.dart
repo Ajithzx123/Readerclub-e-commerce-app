@@ -152,7 +152,7 @@ class OtpPage extends StatelessWidget {
         Navigator.pushAndRemoveUntil(
             context,
             PageTransition(
-                child: const HomeScreen(), type: PageTransitionType.fade),
+                child:  HomeScreen(), type: PageTransitionType.fade),
             (route) => false);
       }
        else {

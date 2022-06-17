@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
+import 'package:readerclub/Model/shared_prefrences.dart';
 import 'package:sizer/sizer.dart';
-
 import 'View/First sessions/Splash Screen/splash screen.dart';
 
 const savedKey = "value is saved";
 const onboardKey = "value is also saved";
-void main(List<String> args) {
+
+void main(List<String> args)async {
+WidgetsFlutterBinding.ensureInitialized();
+await SharedPrefrenceModel.init();
+
   runApp(const MyApp());
 }
 

@@ -29,7 +29,7 @@ class NavigationController extends GetxController {
 
   navtomain() async {
     Future.delayed(const Duration(seconds: 3), () {
-      Get.offAll(const HomeScreen(),
+      Get.offAll( HomeScreen(),
           transition: Transition.fade,
           duration: const Duration(milliseconds: 700));
     });

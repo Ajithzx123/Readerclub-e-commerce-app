@@ -9,7 +9,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import '../main.dart';
 
 class LoginController extends GetxController {
-  var name ;
+  dynamic isloading = false;
   late TextEditingController usernamecontroller, passwordcontroller;
 
   @override
@@ -19,7 +19,9 @@ class LoginController extends GetxController {
     passwordcontroller = TextEditingController();
   }
 
-  Future<UserDetails?> loginData() async {
+ Future loginData() async {
+    isloading = true;
+    update();
     Dio dio = Dio();
     var apiData = ("https://readerclub.store/api/auth/login");
 
@@ -30,25 +32,26 @@ class LoginController extends GetxController {
     try {
       final response = await dio.post(apiData, data: mapdatas);
 
-      if (response.statusCode == 200) {
-        print("name is............${response.data["user"]["name"].toString()}");
-        customSnackbar(
-            "Success",
-           "Login SuccessFully",
-            "success");
+      // if (response.statusCode == 200) {
+        // print("name is............${response.data["user"]["name"].toString()}");
+        customSnackbar("Success", "Login SuccessFully", "success");
         final SharedPreferences sharedPreferences =
             await SharedPreferences.getInstance();
         sharedPreferences.setBool(savedKey, true);
-         name = response.data["user"]["name"].toString();
-          Get.offAll(const HomeScreen());
-        UserDetails user =  UserDetails.fromJson(jsonDecode(response.data));
-        
-        
+
+          // print(response.data['accessToken']);
+          // print(response.data.runtimeType);
+        sharedPreferences.setString('userDetails', jsonEncode(response.data));
+
+
+   
+
+     
+        Get.offAll(() =>  HomeScreen());
       
-      
-      } else {
-        throw DioError;
-      }
+      // } else {
+      //   throw DioError;
+      // }
     } catch (e) {
       if (e is DioError) {
         print("error is......... ${e.response!.data.toString()}");
@@ -57,11 +60,19 @@ class LoginController extends GetxController {
             "Error",
             e.response!.data["user"] ?? e.response!.data["password"].toString(),
             "error");
-          
+
         //  Text(
         //     e.response!.data["user"] ?? e.response!.data["password"].toString(),
 
       }
+    } finally {
+      print("dskjfdfsdk");
+      isloading = false;
+      update();
     }
   }
 }
+
+
+
+

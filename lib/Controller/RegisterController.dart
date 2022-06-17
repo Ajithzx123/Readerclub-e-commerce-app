@@ -66,7 +66,7 @@ class RegisterController extends GetxController {
             await SharedPreferences.getInstance();
         sharedPreferences.setBool(savedKey, true);
 
-        Get.offAll(const HomeScreen(), transition: Transition.fade);
+        Get.offAll( HomeScreen(), transition: Transition.fade);
       } else {
         throw DioError;
       }

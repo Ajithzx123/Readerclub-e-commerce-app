@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:readerclub/Controller/login.dart';
+import 'package:readerclub/Controller/loginController.dart';
 import 'package:readerclub/View/User%20session/Login%20page/widget/widgets.dart';
 import 'package:sizer/sizer.dart';
 import '../../First sessions/Reg or sign/RegOrsignPage.dart';
@@ -16,7 +16,7 @@ class LoginPage extends StatelessWidget {
 
   final formKey = GlobalKey<FormState>();
  
-  //  bool progress =false;
+   bool progress =false;
 
   @override
   Widget build(BuildContext context) {
@@ -117,8 +117,10 @@ class LoginPage extends StatelessWidget {
                           ),
                         ),
                         SizedBox(height: 5.h),
+                      controller.isloading == true ?
+                    const  Center(child: CircularProgressIndicator())
 
-                        Center(
+                      :  Center(
                           child: FadeInLeft(
                             child: CustombuttonLogin(
                               iconcolor: Colors.white,
@@ -128,7 +130,10 @@ class LoginPage extends StatelessWidget {
                               text: "Sign In",
                               onpressed: () {
                                 if (formKey.currentState!.validate()) {
-                                  controller.loginData();
+                                  controller.loginData().then((value) {
+                                    print(value);
+                                  });
+                                 
                                 }
                               },
                               colours: const [

@@ -4,8 +4,8 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:readerclub/Controller/Register.dart';
-import 'package:readerclub/Controller/login.dart';
+import 'package:readerclub/Controller/RegisterController.dart';
+import 'package:readerclub/Controller/loginController.dart';
 
 import 'package:readerclub/View/User%20session/RegisterScreen/widget/widgets.dart';
 import 'package:readerclub/main.dart';

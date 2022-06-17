@@ -2,8 +2,10 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:readerclub/View/User%20session/home%20screen/custom%20widgets/widgets.dart';
+import 'package:readerclub/api/Categories.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../../Model/Categories.dart';
 import '../../../widgets/BookCustom.dart';
 
 class TabbarTabs extends StatelessWidget {
@@ -17,53 +19,53 @@ class TabbarTabs extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: 6.h,
-      decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(
-          10.0.w,
-        ),
-      ),
-      child: TabBar(
-        isScrollable: true,
-        automaticIndicatorColorAdjustment: true,
-        controller: _tabController,
-        indicatorPadding: EdgeInsets.zero,
-        indicator: BoxDecoration(
-            borderRadius: BorderRadius.circular(10.w), color: Colors.black),
-        labelColor: Colors.white,
-        labelStyle: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold),
-        unselectedLabelColor: Colors.black,
-        unselectedLabelStyle:
-            TextStyle(fontSize: 13.sp, fontWeight: FontWeight.bold),
-        tabs: const [
-          Tab(
-            text: 'Romance',
+    return FutureBuilder<CategoriesModel>(
+      future: categoriesApi(),
+      builder: (context, AsyncSnapshot<CategoriesModel> snapshot) {
+         if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+
+          CategoriesModel categorieslist = snapshot.data!;
+        return Container(
+          height: 6.h,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(
+              10.0.w,
+            ),
           ),
-          Tab(
-            text: 'Fiction',
+          child: TabBar(
+            isScrollable: true,
+            automaticIndicatorColorAdjustment: true,
+            controller: _tabController,
+            indicatorPadding: EdgeInsets.zero,
+            indicator: BoxDecoration(
+                borderRadius: BorderRadius.circular(10.w), color: Colors.black),
+            labelColor: Colors.white,
+            labelStyle: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold),
+            unselectedLabelColor: Colors.black,
+            unselectedLabelStyle:
+                TextStyle(fontSize: 13.sp, fontWeight: FontWeight.bold),
+            tabs: 
+            List.generate(categorieslist.dt!.length, (index) {
+
+              String title = categorieslist.dt![index].id!;
+              return Tab(
+              text: title ,
+            );
+            })
           ),
-          Tab(
-            text: 'Horror',
-          ),
-          Tab(
-            text: 'Fantasy',
-          ),
-          Tab(
-            text: 'Fantasy',
-          ),
-          Tab(
-            text: 'Fantasy',
-          ),
-        ],
-      ),
+        );
+      }
     );
   }
 }
 
 
 class TabBarViews extends StatelessWidget {
-  const TabBarViews({
+   TabBarViews({
     Key? key,
     required TabController tabController,
   })  : _tabController = tabController,
@@ -71,8 +73,14 @@ class TabBarViews extends StatelessWidget {
 
   final TabController _tabController;
 
+  int index = 0;
+
+
   @override
   Widget build(BuildContext context) {
+
+
+
     return Expanded(
       child: TabBarView(
         controller: _tabController,
