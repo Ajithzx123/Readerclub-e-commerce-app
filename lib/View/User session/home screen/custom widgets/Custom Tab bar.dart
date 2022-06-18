@@ -1,8 +1,9 @@
-
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:readerclub/Model/productModel.dart';
 import 'package:readerclub/View/User%20session/home%20screen/custom%20widgets/widgets.dart';
 import 'package:readerclub/api/Categories.dart';
+import 'package:readerclub/api/Products.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../../Model/Categories.dart';
@@ -20,52 +21,51 @@ class TabbarTabs extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<CategoriesModel>(
-      future: categoriesApi(),
-      builder: (context, AsyncSnapshot<CategoriesModel> snapshot) {
-         if (snapshot.connectionState == ConnectionState.waiting) {
+        future: categoriesApi(),
+        builder: (context, AsyncSnapshot<CategoriesModel> snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
               child: CircularProgressIndicator(),
             );
           }
 
           CategoriesModel categorieslist = snapshot.data!;
-        return Container(
-          height: 6.h,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(
-              10.0.w,
+          return Container(
+            height: 6.h,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(
+                10.0.w,
+              ),
             ),
-          ),
-          child: TabBar(
-            isScrollable: true,
-            automaticIndicatorColorAdjustment: true,
-            controller: _tabController,
-            indicatorPadding: EdgeInsets.zero,
-            indicator: BoxDecoration(
-                borderRadius: BorderRadius.circular(10.w), color: Colors.black),
-            labelColor: Colors.white,
-            labelStyle: TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold),
-            unselectedLabelColor: Colors.black,
-            unselectedLabelStyle:
-                TextStyle(fontSize: 13.sp, fontWeight: FontWeight.bold),
-            tabs: 
-            List.generate(categorieslist.dt!.length, (index) {
-
-              String title = categorieslist.dt![index].id!;
-              return Tab(
-              text: title ,
-            );
-            })
-          ),
-        );
-      }
-    );
+            child: TabBar(
+                isScrollable: true,
+                automaticIndicatorColorAdjustment: true,
+                controller: _tabController,
+                indicatorPadding: EdgeInsets.zero,
+                indicator: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10.w),
+                    color: Colors.black),
+                labelColor: Colors.white,
+                labelStyle:
+                    TextStyle(fontSize: 14.sp, fontWeight: FontWeight.bold),
+                unselectedLabelColor: Colors.black,
+                unselectedLabelStyle:
+                    TextStyle(fontSize: 13.sp, fontWeight: FontWeight.bold),
+                tabs: List.generate(categorieslist.dt!.length, (index) {
+                  String text = categorieslist.dt![index].category!;
+                  String title =
+                      text.replaceFirst(text[0], text[0].toUpperCase());
+                  return Tab(
+                    text: title,
+                  );
+                })),
+          );
+        });
   }
 }
 
-
 class TabBarViews extends StatelessWidget {
-   TabBarViews({
+  TabBarViews({
     Key? key,
     required TabController tabController,
   })  : _tabController = tabController,
@@ -75,162 +75,201 @@ class TabBarViews extends StatelessWidget {
 
   int index = 0;
 
-
   @override
   Widget build(BuildContext context) {
+    return FutureBuilder(
+        future: productsApi(),
+        builder: (context, AsyncSnapshot snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
 
+          ProductsModel products = snapshot.data!;
+         
+          return Expanded(
+            child: TabBarView(
+                controller: _tabController,
+                children: List.generate(products.dt!.length - 3, (index) {
+                  return Center(
+                      child: Column(
+                    children: [
+                      Row(
+                        children: [
 
+                          FadeInLeft(
+                            child: BookAndName(
+                                image: products.dt![index].img!,
+                                name: products.dt![index].title!,
+                                amount:
+                                    "₹${products.dt![index].price!.toString()}"),
+                          ),
+                          // SizedBox(
+                          //   width: 2.w,
+                          // ),
+                          // FadeInRight(
+                          //   child: const BookAndName(
+                          //       image:
+                          //           "https://d28hgpri8am2if.cloudfront.net/book_images/onix/cvr9781476792491/after-we-collided-9781476792491_hr.jpg",
+                          //       name: "After",
+                          //       amount: "₹999.00"),
+                          // ),
+                        ],
+                      ),
+                      FadeInUp(child: CustomButtonHome())
+                    ],
+                  ));
+                })
 
-    return Expanded(
-      child: TabBarView(
-        controller: _tabController,
-        children: [
-          Center(
-              child: Column(
-            children: [
-              Row(
-                children: [
-                  FadeInLeft(
-                    child: const BookAndName(
-                        image:
-                            "https://i.pinimg.com/originals/6b/34/d7/6b34d7e6e6e6a4f177d135abb6426c68.jpg",
-                        name: "Romeo & Juliet",
-                        amount: "₹549.00"),
-                  ),
-                  SizedBox(
-                    width: 2.w,
-                  ),
-                  FadeInRight(
-                    child: const BookAndName(
-                        image:
-                            "https://d28hgpri8am2if.cloudfront.net/book_images/onix/cvr9781476792491/after-we-collided-9781476792491_hr.jpg",
-                        name: "After",
-                        amount: "₹999.00"),
-                  ),
-                ],
-              ),
-              FadeInUp(child: CustomButtonHome())
-            ],
-          )),
-          Center(
-              child: Column(
-            children: [
-              Row(
-                children: [
-                  FadeInLeft(
-                    child: const BookAndName(
-                        image:
-                            "https://images-na.ssl-images-amazon.com/images/I/816NlEQFMOL.jpg",
-                        name: "Life Of Pi",
-                        amount: "₹699.00"),
-                  ),
-                  SizedBox(
-                    width: 2.w,
-                  ),
-                  FadeInRight(
-                    child: const BookAndName(
-                        image:
-                            "https://mspalas.weebly.com/uploads/1/3/2/0/13208827/3664890.jpg",
-                        name: "The Giver",
-                        amount: "₹549.00"),
-                  ),
-                ],
-              ),
-              FadeInUp(child: CustomButtonHome())
-            ],
-          )),
-          Center(
-              child: Column(
-            children: [
-              Row(
-                children: [
-                  FadeInLeft(
-                    child: const BookAndName(
-                        image:
-                            "https://images-na.ssl-images-amazon.com/images/I/61zG02r3qCL.jpg",
-                        name: "IT",
-                        amount: "₹749.00"),
-                  ),
-                  SizedBox(
-                    width: 2.w,
-                  ),
-                  FadeInRight(
-                    child: const BookAndName(
-                        image:
-                            "https://kbimages1-a.akamaihd.net/9541dc73-a03c-433d-9e2c-9fba5ff67ea5/1200/1200/False/dracula-173.jpg",
-                        name: "Dracula",
-                        amount: "₹549.00"),
-                  ),
-                ],
-              ),
-              FadeInUp(child: CustomButtonHome())
-            ],
-          )),
-          Center(
-              child: Column(
-            children: [
-              Row(
-                children: [
-                  FadeInLeft(
-                    child: const BookAndName(
-                        image:
-                            "https://i.pinimg.com/originals/6b/34/d7/6b34d7e6e6e6a4f177d135abb6426c68.jpg",
-                        name: "Romeo & Juliet",
-                        amount: "₹549.00"),
-                  ),
-                  SizedBox(
-                    width: 2.w,
-                  ),
-                  FadeInRight(
-                    child: const BookAndName(
-                        image:
-                            "https://i.pinimg.com/originals/6b/34/d7/6b34d7e6e6e6a4f177d135abb6426c68.jpg",
-                        name: "Romeo & Juliet",
-                        amount: "₹549.00"),
-                  ),
-                ],
-              ),
-              FadeInUp(child: CustomButtonHome())
-            ],
-          )),
-          Center(
-              child: Column(
-            children: [
-              Row(
-                children: [
-                  FadeInLeft(
-                    child: const BookAndName(
-                        image:
-                            "https://i.pinimg.com/originals/6b/34/d7/6b34d7e6e6e6a4f177d135abb6426c68.jpg",
-                        name: "Romeo & Juliet",
-                        amount: "₹549.00"),
-                  ),
-                  SizedBox(
-                    width: 2.w,
-                  ),
-                  FadeInRight(
-                    child: const BookAndName(
-                        image:
-                            "https://i.pinimg.com/originals/6b/34/d7/6b34d7e6e6e6a4f177d135abb6426c68.jpg",
-                        name: "Romeo & Juliet",
-                        amount: "₹549.00"),
-                  ),
-                ],
-              ),
-              FadeInUp(child: CustomButtonHome())
-            ],
-          )),
-          Center(
-            child: Text(
-              'Fantasy',
-              style: TextStyle(
-                fontSize: 25.sp,
-                fontWeight: FontWeight.w600,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
+                //  [
+                //   Center(
+                //       child: Column(
+                //     children: [
+                //       Row(
+                //         children: [
+                //           FadeInLeft(
+                //             child: const BookAndName(
+                //                 image:
+                //                     "https://i.pinimg.com/originals/6b/34/d7/6b34d7e6e6e6a4f177d135abb6426c68.jpg",
+                //                 name: "Romeo & Juliet",
+                //                 amount: "₹549.00"),
+                //           ),
+                //           SizedBox(
+                //             width: 2.w,
+                //           ),
+                //           FadeInRight(
+                //             child: const BookAndName(
+                //                 image:
+                //                     "https://d28hgpri8am2if.cloudfront.net/book_images/onix/cvr9781476792491/after-we-collided-9781476792491_hr.jpg",
+                //                 name: "After",
+                //                 amount: "₹999.00"),
+                //           ),
+                //         ],
+                //       ),
+                //       FadeInUp(child: CustomButtonHome())
+                //     ],
+                //   )),
+                //   Center(
+                //       child: Column(
+                //     children: [
+                //       Row(
+                //         children: [
+                //           FadeInLeft(
+                //             child: const BookAndName(
+                //                 image:
+                //                     "https://images-na.ssl-images-amazon.com/images/I/816NlEQFMOL.jpg",
+                //                 name: "Life Of Pi",
+                //                 amount: "₹699.00"),
+                //           ),
+                //           SizedBox(
+                //             width: 2.w,
+                //           ),
+                //           FadeInRight(
+                //             child: const BookAndName(
+                //                 image:
+                //                     "https://mspalas.weebly.com/uploads/1/3/2/0/13208827/3664890.jpg",
+                //                 name: "The Giver",
+                //                 amount: "₹549.00"),
+                //           ),
+                //         ],
+                //       ),
+                //       FadeInUp(child: CustomButtonHome())
+                //     ],
+                //   )),
+                //   Center(
+                //       child: Column(
+                //     children: [
+                //       Row(
+                //         children: [
+                //           FadeInLeft(
+                //             child: const BookAndName(
+                //                 image:
+                //                     "https://images-na.ssl-images-amazon.com/images/I/61zG02r3qCL.jpg",
+                //                 name: "IT",
+                //                 amount: "₹749.00"),
+                //           ),
+                //           SizedBox(
+                //             width: 2.w,
+                //           ),
+                //           FadeInRight(
+                //             child: const BookAndName(
+                //                 image:
+                //                     "https://kbimages1-a.akamaihd.net/9541dc73-a03c-433d-9e2c-9fba5ff67ea5/1200/1200/False/dracula-173.jpg",
+                //                 name: "Dracula",
+                //                 amount: "₹549.00"),
+                //           ),
+                //         ],
+                //       ),
+                //       FadeInUp(child: CustomButtonHome())
+                //     ],
+                //   )),
+                //   Center(
+                //       child: Column(
+                //     children: [
+                //       Row(
+                //         children: [
+                //           FadeInLeft(
+                //             child: const BookAndName(
+                //                 image:
+                //                     "https://i.pinimg.com/originals/6b/34/d7/6b34d7e6e6e6a4f177d135abb6426c68.jpg",
+                //                 name: "Romeo & Juliet",
+                //                 amount: "₹549.00"),
+                //           ),
+                //           SizedBox(
+                //             width: 2.w,
+                //           ),
+                //           FadeInRight(
+                //             child: const BookAndName(
+                //                 image:
+                //                     "https://i.pinimg.com/originals/6b/34/d7/6b34d7e6e6e6a4f177d135abb6426c68.jpg",
+                //                 name: "Romeo & Juliet",
+                //                 amount: "₹549.00"),
+                //           ),
+                //         ],
+                //       ),
+                //       FadeInUp(child: CustomButtonHome())
+                //     ],
+                //   )),
+                //   Center(
+                //       child: Column(
+                //     children: [
+                //       Row(
+                //         children: [
+                //           FadeInLeft(
+                //             child: const BookAndName(
+                //                 image:
+                //                     "https://i.pinimg.com/originals/6b/34/d7/6b34d7e6e6e6a4f177d135abb6426c68.jpg",
+                //                 name: "Romeo & Juliet",
+                //                 amount: "₹549.00"),
+                //           ),
+                //           SizedBox(
+                //             width: 2.w,
+                //           ),
+                //           FadeInRight(
+                //             child: const BookAndName(
+                //                 image:
+                //                     "https://i.pinimg.com/originals/6b/34/d7/6b34d7e6e6e6a4f177d135abb6426c68.jpg",
+                //                 name: "Romeo & Juliet",
+                //                 amount: "₹549.00"),
+                //           ),
+                //         ],
+                //       ),
+                //       FadeInUp(child: CustomButtonHome())
+                //     ],
+                //   )),
+                //   // Center(
+                //   //   child: Text(
+                //   //     'Fantasy',
+                //   //     style: TextStyle(
+                //   //       fontSize: 25.sp,
+                //   //       fontWeight: FontWeight.w600,
+                //   //     ),
+                //   //   ),
+                //   // ),
+                // ],
+                ),
+          );
+        });
   }
 }

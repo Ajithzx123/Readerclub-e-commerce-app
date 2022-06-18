@@ -11,7 +11,7 @@ import 'dart:convert';
     return _prefs;
   }
 
-
+  
    static Map getString(String key) {
      String? user = _prefs.getString(key);
      return jsonDecode(user!);

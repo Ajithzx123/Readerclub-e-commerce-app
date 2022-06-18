@@ -1,10 +1,7 @@
-import 'dart:convert';
 
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:page_transition/page_transition.dart';
-import 'package:readerclub/Controller/loginController.dart';
 import 'package:readerclub/Model/shared_prefrences.dart';
 import 'package:sizer/sizer.dart';
 import 'custom widgets/Custom Tab bar.dart';
@@ -33,7 +30,7 @@ class _HomeScreenState extends State<HomeScreen>
 
   @override
   void initState() {
-    _tabController = TabController(length: 6, vsync: this);
+    _tabController = TabController(length: 5, vsync: this);
 
     userDetails = SharedPrefrenceModel.getString('userDetails');
 
@@ -49,7 +46,6 @@ class _HomeScreenState extends State<HomeScreen>
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(LoginController());
 
     return Scaffold(
         drawer: const SideDrawer(),
