@@ -51,3 +51,19 @@ class Dt {
         "__v": v,
     };
 }
+
+class Category{
+  String id;
+  String category;
+  String image;
+
+  Category({required this.category, required this.id, required this.image});
+
+  Map<String,dynamic> toJson()=>  {
+    "_id" : id,
+    "category" : category,
+    "image" : image
+  };
+
+  static Category fromJson(Map<String,dynamic> json) => Category(category: json["category"], id: json["_id"], image: json["img"]);
+}

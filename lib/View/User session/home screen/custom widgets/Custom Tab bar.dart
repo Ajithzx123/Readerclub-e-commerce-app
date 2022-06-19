@@ -1,16 +1,13 @@
-import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
-import 'package:readerclub/Model/productModel.dart';
-import 'package:readerclub/View/User%20session/home%20screen/custom%20widgets/widgets.dart';
-import 'package:readerclub/api/Categories.dart';
-import 'package:readerclub/api/Products.dart';
+
 import 'package:sizer/sizer.dart';
 
-import '../../../../Model/Categories.dart';
-import '../../../widgets/BookCustom.dart';
 
 class TabbarTabs extends StatelessWidget {
+  final List<Widget> tab;
+
   const TabbarTabs({
+    required this.tab,
     Key? key,
     required TabController tabController,
   })  : _tabController = tabController,
@@ -20,16 +17,7 @@ class TabbarTabs extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder<CategoriesModel>(
-        future: categoriesApi(),
-        builder: (context, AsyncSnapshot<CategoriesModel> snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-
-          CategoriesModel categorieslist = snapshot.data!;
+    
           return Container(
             height: 6.h,
             decoration: BoxDecoration(
@@ -51,21 +39,17 @@ class TabbarTabs extends StatelessWidget {
                 unselectedLabelColor: Colors.black,
                 unselectedLabelStyle:
                     TextStyle(fontSize: 13.sp, fontWeight: FontWeight.bold),
-                tabs: List.generate(categorieslist.dt!.length, (index) {
-                  String text = categorieslist.dt![index].category!;
-                  String title =
-                      text.replaceFirst(text[0], text[0].toUpperCase());
-                  return Tab(
-                    text: title,
-                  );
-                })),
+                tabs:tab),
           );
-        });
-  }
+        }
 }
+  
+
 
 class TabBarViews extends StatelessWidget {
+  final List<Widget> tabBarView;
   TabBarViews({
+    required this.tabBarView,
     Key? key,
     required TabController tabController,
   })  : _tabController = tabController,
@@ -77,50 +61,10 @@ class TabBarViews extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureBuilder(
-        future: productsApi(),
-        builder: (context, AsyncSnapshot snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-
-          ProductsModel products = snapshot.data!;
-         
-          return Expanded(
+    return  Expanded(
             child: TabBarView(
                 controller: _tabController,
-                children: List.generate(products.dt!.length - 3, (index) {
-                  return Center(
-                      child: Column(
-                    children: [
-                      Row(
-                        children: [
-
-                          FadeInLeft(
-                            child: BookAndName(
-                                image: products.dt![index].img!,
-                                name: products.dt![index].title!,
-                                amount:
-                                    "₹${products.dt![index].price!.toString()}"),
-                          ),
-                          // SizedBox(
-                          //   width: 2.w,
-                          // ),
-                          // FadeInRight(
-                          //   child: const BookAndName(
-                          //       image:
-                          //           "https://d28hgpri8am2if.cloudfront.net/book_images/onix/cvr9781476792491/after-we-collided-9781476792491_hr.jpg",
-                          //       name: "After",
-                          //       amount: "₹999.00"),
-                          // ),
-                        ],
-                      ),
-                      FadeInUp(child: CustomButtonHome())
-                    ],
-                  ));
-                })
+                children: tabBarView
 
                 //  [
                 //   Center(
@@ -270,6 +214,6 @@ class TabBarViews extends StatelessWidget {
                 // ],
                 ),
           );
-        });
-  }
+        }
+  
 }

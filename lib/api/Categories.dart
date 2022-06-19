@@ -11,7 +11,8 @@ Future <CategoriesModel> categoriesApi() async{
   final  response = await dio.get(ApiUrl);
 
 
-  print(response.data);
    CategoriesModel categoriesList =  CategoriesModel.fromJson(response.data);
+   
     return categoriesList;
+
 }

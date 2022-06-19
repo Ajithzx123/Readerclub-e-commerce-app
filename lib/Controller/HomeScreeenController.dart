@@ -1,30 +1,33 @@
-import 'dart:convert';
-
 import 'package:dio/dio.dart';
+// import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
-import 'package:readerclub/Model/OfferBanner.dart';
+import 'package:readerclub/Model/Categories.dart';
+// import 'package:readerclub/api/Categories.dart';
 
-class HomeScreenController extends GetxController{
-// OfferBanner? result;
-@override
-  void onInit() {
-    super.onInit();
+class ApiController extends GetxController {
+  final dio = Dio();
+  List<Category> categorys = [];
+  getCategory(String query) async {
+    var response = await dio.get("https://readerclub.store/api/products/cat?category=$query");
+    // print("12345 ${response.data}");
   }
 
-  //  offerBannerController () async{
-  //  Dio dio = Dio();
-  //  var ApiUrl = ("https://readerclub.store/api/banner");
-
-  // final  response = await dio.get(ApiUrl);
-
-  // print(response.data);
-  // if(response.statusCode == 200 ){
-  //   result =  OfferBanner.fromJson(jsonDecode(response.data));
-  //   return result;
-  // }
-  
-  // }
+  Future<List<Category>>getCat() async {
+    categorys.clear();
+  final response = await dio.get("https://readerclub.store/api/categories");
+  List<dynamic> data = response.data["dt"];
+   List<Category> cat =data.map((e) => Category.fromJson(e)).toList();
+  // print("12345 ${cat.length}");
+  categorys.addAll(cat);
+  // print("1111 ${categorys.length}");
 
 
-
+  return cat;
+  }
+  @override
+  void onInit() {
+    // TODO: implement onInit
+    super.onInit();
+    getCat();
+  }
 }
