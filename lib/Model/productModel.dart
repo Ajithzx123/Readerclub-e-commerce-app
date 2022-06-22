@@ -13,10 +13,10 @@ class ProductsModel {
         this.dt,
     });
 
-    List<Dt>? dt;
+    List<Details>? dt;
 
     factory ProductsModel.fromJson(Map<String, dynamic> json) => ProductsModel(
-        dt: List<Dt>.from(json["dt"].map((x) => Dt.fromJson(x))),
+        dt: List<Details>.from(json["dt"].map((x) => Details.fromJson(x))),
     );
 
     Map<String, dynamic> toJson() => {
@@ -24,8 +24,8 @@ class ProductsModel {
     };
 }
 
-class Dt {
-    Dt({
+class Details {
+    Details({
         this.id,
         this.title,
         this.description,
@@ -59,7 +59,7 @@ class Dt {
     DateTime ?updatedAt;
     int ?v;
 
-    factory Dt.fromJson(Map<String, dynamic> json) => Dt(
+    factory Details.fromJson(Map<String, dynamic> json) => Details(
         id: json["_id"],
         title: json["title"],
         description: json["description"],

@@ -9,47 +9,7 @@ import '../../Cart/cart.dart';
 import '../../Categories/Categories.dart';
 
 
-class CustomButtonHome extends StatelessWidget {
-  const CustomButtonHome({
-    Key? key,
-  }) : super(key: key);
 
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: 33.w,
-      height: 5.h,
-      decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          gradient: const LinearGradient(
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-              colors: [
-                Color.fromARGB(255, 140, 140, 140),
-                Color.fromARGB(255, 9, 9, 9)
-              ])),
-      child: ElevatedButton(
-        onPressed: (){
-          Navigator.push(context, PageTransition(child: Categories(), type: PageTransitionType.rightToLeftWithFade));
-        },
-        child: Text(
-          "View All",
-          style:
-              const TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
-        ),
-        style: ButtonStyle(
-          shadowColor: MaterialStateProperty.all(Colors.transparent),
-          backgroundColor: MaterialStateProperty.all(Colors.transparent),
-          shape: MaterialStateProperty.all<RoundedRectangleBorder>(
-            RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(18.0),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-}
 
 class Topicons extends StatelessWidget {
   const Topicons({

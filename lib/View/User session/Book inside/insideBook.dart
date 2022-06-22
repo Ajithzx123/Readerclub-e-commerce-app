@@ -6,7 +6,7 @@ import 'package:sizer/sizer.dart';
 import '../../widgets/BlueButton.dart';
 
 class InsideBook extends StatelessWidget {
-  final Dt item;
+  final Details item;
    const InsideBook({required this.item, Key? key}) : super(key: key);
 
   @override

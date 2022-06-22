@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
@@ -116,7 +115,6 @@ class _HomeScreenState extends State<HomeScreen>
                             String text = categorieslist.dt![index].category!;
                             categoryName = text.replaceFirst(
                                 text[0], text[0].toUpperCase());
-                            print(text);
                             return Tab(
                               text: categoryName,
                             );

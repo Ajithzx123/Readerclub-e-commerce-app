@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:page_transition/page_transition.dart';
+import 'package:readerclub/View/User%20session/Categories/categorieList.dart';
 
 import 'package:readerclub/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -64,7 +66,7 @@ class SideDrawer extends StatelessWidget {
                 'Categories',
                 style: TextStyle(fontSize: 13.sp, fontWeight: FontWeight.bold),
               ),
-              onTap: () => {},
+              onTap: () => Get.to(  CategoriesList()),
             ),
             ListTile(
               leading: const Icon(
