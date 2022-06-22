@@ -5,13 +5,17 @@ import 'package:readerclub/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../../Model/shared_prefrences.dart';
 import '../../../First sessions/Reg or sign/RegOrsignPage.dart';
 import '../../../widgets/AlertdialogueCustom.dart';
 import '../../../widgets/error.dart';
 import '../../WishList/wishlist.dart';
 
 class SideDrawer extends StatelessWidget {
-  const SideDrawer({Key? key}) : super(key: key);
+   SideDrawer({Key? key}) : super(key: key);
+  
+    var  userDetails = SharedPrefrenceModel.getString('userDetails');
+
 
   @override
   Widget build(BuildContext context) {
@@ -41,7 +45,7 @@ class SideDrawer extends StatelessWidget {
                       height: 1.h,
                     ),
                     Text(
-                      'Ajith Kumar',
+                      userDetails["user"]["name"],
                       style: TextStyle(
                           color: Colors.black,
                           fontSize: 22.sp,

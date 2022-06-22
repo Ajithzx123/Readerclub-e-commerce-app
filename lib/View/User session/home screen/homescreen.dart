@@ -9,6 +9,7 @@ import 'package:readerclub/Controller/HomeScreeenController.dart';
 import 'package:readerclub/Model/Categories.dart';
 import 'package:readerclub/Model/productModel.dart';
 import 'package:readerclub/Model/shared_prefrences.dart';
+import 'package:readerclub/View/User%20session/Book%20inside/insideBook.dart';
 import 'package:readerclub/api/Categories.dart';
 import 'package:readerclub/api/Products.dart';
 import 'package:sizer/sizer.dart';
@@ -37,7 +38,6 @@ class _HomeScreenState extends State<HomeScreen>
   var logger = Logger();
   ProductsModel productsModel = ProductsModel();
 
-//  late SharedPreferences sharedPreferences;
   Map userDetails = {};
 
   @override
@@ -59,9 +59,8 @@ class _HomeScreenState extends State<HomeScreen>
   ProductsModel plist = ProductsModel();
   @override
   Widget build(BuildContext context) {
-    Get.put(ApiController());
     return Scaffold(
-      drawer: const SideDrawer(),
+      drawer: SideDrawer(),
       body: SafeArea(
         child: Padding(
           padding: EdgeInsets.all(7.w),
@@ -139,82 +138,50 @@ class _HomeScreenState extends State<HomeScreen>
                       }
 
                       CategoriesModel Categorieslist = snapshot.data!;
+                      
                       return TabBarViews(
                         tabController: _tabController,
                         tabBarView: List.generate(
                           Categorieslist.dt!.length,
                           (index) {
-                            return Center(
-                              child: Column(
-                                children: [
-                                  FutureBuilder<ProductsModel>(
-                                    builder: (context,
-                                        AsyncSnapshot<ProductsModel> snapshot) {
-                                      if (snapshot.connectionState ==
-                                          ConnectionState.waiting) {
-                                        return const Center(
-                                          child: CircularProgressIndicator(),
-                                        );
-                                      }
-                                      ProductsModel products = snapshot.data!;
-                                      List<String> categoriesList =
-                                          products.dt![index].categories!;
-                                      for (int i = 0;
-                                          i < categoriesList.length;
-                                          i++) {
-                                        if (categoriesList[i] == categoryName) {
-                                          logger.v(categoriesList[i]);
-                                          logger.v(categoryName);
-                                        } else {
-                                          logger.v(categoriesList[i]);
-                                          logger.v(categoryName);
-                                        }
-                                      }
-                                      // return Row(
-                                      //   children: [
-                                      //     BookAndName(
-                                      //       image: products.dt![index].img!,
-                                      //       name: products.dt![index].title!,
-                                      //       amount:
-                                      //           "₹${products.dt![index].price!.toString()}",
-                                      //     ),
-                                      //     BookAndName(
-                                      //       image: products.dt![index + 1].img!,
-                                      //       name:
-                                      //           products.dt![index + 1].title!,
-                                      //       amount:
-                                      //           "₹${products.dt![index + 1].price!.toString()}",
-                                      //     ),
-                                      //   ],
-                                      // );
-                                      return GridView.builder(
-                                        shrinkWrap: true,
-                                        itemCount: 1,
-                                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                                          crossAxisCount: 2,
-                                          mainAxisSpacing: 5,  
-                                         // crossAxisSpacing: 5,
-                                          // childAspectRatio: 1/2,
-                                        ),
-                                        itemBuilder: (context, index){
-                                          return BookAndName(
-                                            image: products.dt![index + 1].img!,
-                                            name:
-                                                products.dt![index + 1].title!,
-                                            amount:
-                                                "₹${products.dt![index + 1].price!.toString()}",
-                                          );
-                                        },
-                                      );
-                                    },
-                                    future: productsApi(
-                                        Categorieslist.dt![index].category!),
+                            return FutureBuilder<ProductsModel>(
+                              builder: (context,
+                                  AsyncSnapshot<ProductsModel> snapshot) {
+                                if (snapshot.connectionState ==
+                                    ConnectionState.waiting) {
+                                  return const Center(
+                                    child: CircularProgressIndicator(),
+                                  );
+                                }
+                                ProductsModel products = snapshot.data!;
+
+                                return GridView.builder(
+                                  shrinkWrap: true,
+                                  itemCount: products.dt!.length,
+                                  gridDelegate:
+                                      SliverGridDelegateWithFixedCrossAxisCount(
+                                    crossAxisCount: 2,
+                                    // mainAxisSpacing: ,
+                                    crossAxisSpacing: 5.w,
+                                    childAspectRatio: 150 / 250,
                                   ),
-                                  FadeInUp(
-                                    child: CustomButtonHome(),
-                                  )
-                                ],
-                              ),
+                                  itemBuilder: (context, index) {
+
+                                    return BookAndName(
+                                      tap: () {
+                                        Get.to(() => InsideBook(
+                                            item: products.dt![index]));
+                                      },
+                                      image: products.dt![index].img!,
+                                      name: products.dt![index].title!,
+                                      amount:
+                                          "₹${products.dt![index].price!.toString()}",
+                                    );
+                                  },
+                                );
+                              },
+                              future: productsApi(
+                                  Categorieslist.dt![index].category!),
                             );
                           },
                         ),

@@ -19,7 +19,7 @@ class LoginController extends GetxController {
     passwordcontroller = TextEditingController();
   }
 
- Future loginData() async {
+  Future loginData() async {
     isloading = true;
     update();
     Dio dio = Dio();
@@ -32,26 +32,14 @@ class LoginController extends GetxController {
     try {
       final response = await dio.post(apiData, data: mapdatas);
 
-      // if (response.statusCode == 200) {
-        // print("name is............${response.data["user"]["name"].toString()}");
-        customSnackbar("Success", "Login SuccessFully", "success");
-        final SharedPreferences sharedPreferences =
-            await SharedPreferences.getInstance();
-        sharedPreferences.setBool(savedKey, true);
+      customSnackbar("Success", "Login SuccessFully", "success");
+      final SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
+      sharedPreferences.setBool(savedKey, true);
 
-          // print(response.data['accessToken']);
-          // print(response.data.runtimeType);
-        sharedPreferences.setString('userDetails', jsonEncode(response.data));
+      sharedPreferences.setString('userDetails', jsonEncode(response.data));
 
-
-   
-
-     
-        Get.offAll(() =>  HomeScreen());
-      
-      // } else {
-      //   throw DioError;
-      // }
+      Get.offAll(() => HomeScreen());
     } catch (e) {
       if (e is DioError) {
         print("error is......... ${e.response!.data.toString()}");
@@ -60,10 +48,6 @@ class LoginController extends GetxController {
             "Error",
             e.response!.data["user"] ?? e.response!.data["password"].toString(),
             "error");
-
-        //  Text(
-        //     e.response!.data["user"] ?? e.response!.data["password"].toString(),
-
       }
     } finally {
       print("dskjfdfsdk");
@@ -72,7 +56,3 @@ class LoginController extends GetxController {
     }
   }
 }
-
-
-
-

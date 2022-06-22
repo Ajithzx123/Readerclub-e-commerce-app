@@ -1,5 +1,7 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:readerclub/View/User%20session/Book%20inside/insideBook.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../widgets/BookCustom.dart';
@@ -44,7 +46,10 @@ class WishLists extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       FadeInLeft(
-                        child: const BookAndName(
+                        child: BookAndName(
+                          tap: () {
+                            // Get.to(() => InsideBook());
+                          },
                             image:
                                 "https://i.pinimg.com/originals/6b/34/d7/6b34d7e6e6e6a4f177d135abb6426c68.jpg",
                             name: "Romeo & Juliet",
@@ -53,13 +58,14 @@ class WishLists extends StatelessWidget {
                       SizedBox(
                         width: 4.w,
                       ),
-                      FadeInRight(
-                        child: const BookAndName(
-                            image:
-                                "https://d28hgpri8am2if.cloudfront.net/book_images/onix/cvr9781476792491/after-we-collided-9781476792491_hr.jpg",
-                            name: "After",
-                            amount: "₹999.00"),
-                      ),
+                      // FadeInRight(
+                      //   child: BookAndName(
+
+                      //       image:
+                      //           "https://d28hgpri8am2if.cloudfront.net/book_images/onix/cvr9781476792491/after-we-collided-9781476792491_hr.jpg",
+                      //       name: "After",
+                      //       amount: "₹999.00"),
+                      // ),
                     ],
                   ),
                 ],

@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:readerclub/View/User%20session/Login%20page/LoginPage.dart';
 import 'package:readerclub/View/User%20session/home%20screen/homescreen.dart';
 import 'package:readerclub/View/widgets/snackbar.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -66,7 +67,7 @@ class RegisterController extends GetxController {
             await SharedPreferences.getInstance();
         sharedPreferences.setBool(savedKey, true);
 
-        Get.offAll( HomeScreen(), transition: Transition.fade);
+        Get.offAll( LoginPage(), transition: Transition.fade);
       } else {
         throw DioError;
       }

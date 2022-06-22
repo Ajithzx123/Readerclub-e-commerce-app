@@ -1,11 +1,13 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:readerclub/Model/productModel.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../widgets/BlueButton.dart';
 
 class InsideBook extends StatelessWidget {
-  const InsideBook({Key? key}) : super(key: key);
+  final Dt item;
+   const InsideBook({required this.item, Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -33,9 +35,9 @@ class InsideBook extends StatelessWidget {
                         height: 60.h,
                         width: 75.w,
                         decoration: BoxDecoration(
-                            image: const DecorationImage(
-                                image: AssetImage(
-                                  "Assets/Book image/After.webp",
+                            image: DecorationImage(
+                                image: NetworkImage(
+                                  item.img!,
                                 ),
                                 fit: BoxFit.cover),
                             color: Colors.blue,
@@ -55,7 +57,7 @@ class InsideBook extends StatelessWidget {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              "After",
+                             item.title!,
                               style: TextStyle(
                                   fontSize: 30.sp, fontWeight: FontWeight.w900),
                             ),
@@ -70,7 +72,7 @@ class InsideBook extends StatelessWidget {
                           height: 1.h,
                         ),
                         Text(
-                          "ANNATODD",
+                          item.author!,
                           style: TextStyle(
                               fontSize: 12.sp,
                               fontWeight: FontWeight.w600,
@@ -79,33 +81,22 @@ class InsideBook extends StatelessWidget {
                         SizedBox(
                           height: 1.h,
                         ),
-                        Row(
-                          children: [
-                            Text(
-                              "₹700.00",
-                              style: TextStyle(
-                                  fontSize: 14.sp,
-                                  fontWeight: FontWeight.w900,
-                                  color: Color.fromARGB(255, 82, 82, 82)),
-                            ),
-                            SizedBox(
-                              width: 6.w,
-                            ),
-                            Text(
-                              "₹700.00",
-                              style: TextStyle(
-                                  fontSize: 12.sp,
-                                  fontWeight: FontWeight.w600,
-                                  decoration: TextDecoration.lineThrough,
-                                  color: Colors.black54),
-                            ),
-                          ],
+                        Text(
+                          "₹${item.price}",
+                          style: TextStyle(
+                              fontSize: 14.sp,
+                              fontWeight: FontWeight.w900,
+                              color: Color.fromARGB(255, 82, 82, 82)),
                         ),
                         SizedBox(
-                          height: 3.h,
+                          width: 6.w,
+                        ),
+                        SizedBox(
+                          height: 2.h,
                         ),
                         Text(
-                          "                      After is a 2014 young adult romance novel written by American author Anna Toddand published by Gallery Books, an imprint of Simon & Schuster. After is the first installment of the After novel series.",
+                          item.description!,
+                          textAlign: TextAlign.justify,
                           style: TextStyle(
                               fontSize: 14.sp, fontWeight: FontWeight.w500),
                         ),
