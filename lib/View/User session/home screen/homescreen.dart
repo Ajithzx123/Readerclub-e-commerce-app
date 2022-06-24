@@ -9,8 +9,6 @@ import 'package:readerclub/Model/Categories.dart';
 import 'package:readerclub/Model/productModel.dart';
 import 'package:readerclub/Model/shared_prefrences.dart';
 import 'package:readerclub/View/User%20session/Book%20inside/insideBook.dart';
-import 'package:readerclub/api/Categories.dart';
-import 'package:readerclub/api/Products.dart';
 import 'package:sizer/sizer.dart';
 import '../../widgets/BookCustom.dart';
 import 'custom widgets/Custom Tab bar.dart';
@@ -35,7 +33,6 @@ class _HomeScreenState extends State<HomeScreen>
   bool isopened = false;
   late String categoryName;
   var logger = Logger();
-  ProductsModel productsModel = ProductsModel();
 
   Map userDetails = {};
 
@@ -54,10 +51,10 @@ class _HomeScreenState extends State<HomeScreen>
     _tabController.dispose();
   }
 
-  CategoriesModel clist = CategoriesModel();
-  ProductsModel plist = ProductsModel();
+ 
   @override
   Widget build(BuildContext context) {
+    HomeScreenController controller = Get.put(HomeScreenController());
     return Scaffold(
       drawer: SideDrawer(),
       body: SafeArea(
@@ -97,7 +94,7 @@ class _HomeScreenState extends State<HomeScreen>
                   // Tab bars list here
 
                   FutureBuilder<CategoriesModel>(
-                      future: categoriesApi(),
+                      future: controller.categoriesApi(),
                       builder:
                           (context, AsyncSnapshot<CategoriesModel> snapshot) {
                         if (snapshot.connectionState ==
@@ -126,7 +123,7 @@ class _HomeScreenState extends State<HomeScreen>
                   // tab bar view here
 
                   FutureBuilder<CategoriesModel>(
-                    future: categoriesApi(),
+                    future: controller.categoriesApi(),
                     builder:
                         (context, AsyncSnapshot<CategoriesModel> snapshot) {
                       if (snapshot.connectionState == ConnectionState.waiting) {
@@ -178,7 +175,7 @@ class _HomeScreenState extends State<HomeScreen>
                                   },
                                 );
                               },
-                              future: productsApi(
+                              future: controller.productsApi(
                                   Categorieslist.dt![index].category!),
                             );
                           },

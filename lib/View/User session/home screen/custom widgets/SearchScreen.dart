@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:readerclub/Model/productModel.dart';
-import 'package:readerclub/api/productSearch.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../../Controller/HomeScreeenController.dart';
 import '../../../widgets/BookCustom.dart';
 import '../../Book inside/insideBook.dart';
 
@@ -13,7 +12,11 @@ class SearchScreen extends StatelessWidget {
   final searchController = TextEditingController();
   @override
   Widget build(BuildContext context) {
+            HomeScreenController controller = Get.put(HomeScreenController());
+
     return Scaffold(
+      resizeToAvoidBottomInset: true,
+      extendBody: true,
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         shadowColor: Colors.transparent,
@@ -22,7 +25,8 @@ class SearchScreen extends StatelessWidget {
       body: SafeArea(
           child: Padding(
         padding: EdgeInsets.all(5.0.w),
-        child: Column(
+        child: ListView(
+          // physics: NeverScrollableScrollPhysics(),
           children: [
             Container(
               decoration: BoxDecoration(
@@ -31,7 +35,6 @@ class SearchScreen extends StatelessWidget {
               child: Padding(
                 padding: EdgeInsets.only(left: 3.w),
                 child: TextFormField(
-                  
                   controller: searchController,
                   cursorColor: Colors.black,
                   decoration: const InputDecoration(
@@ -44,46 +47,42 @@ class SearchScreen extends StatelessWidget {
               ),
             ),
             SizedBox(height: 5.h,),
-           
             SingleChildScrollView(
-              child: SizedBox(
-                  width: double.maxFinite,
-              height: 74.h,
-                child: FutureBuilder<ProductsModel>(
-                    future: searchApi(searchController.text),
-                    builder: (context, snapshot) {
-                      if (snapshot.connectionState == ConnectionState.waiting) {
-                        return const Center(
-                          child: CircularProgressIndicator(),
-                        );
-                      }
-                      else if(snapshot.connectionState == ConnectionState.none){
-                        return const Text("No books found");
-                      }
-                      ProductsModel search = snapshot.data!;
-                      
-                      return GridView.builder(
-                        shrinkWrap: true,
-                        itemCount: search.dt!.length,
-                        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 2, 
-                          mainAxisSpacing: 0.h,
-                          crossAxisSpacing: 5.w,
-                          childAspectRatio: 150 / 250,
-                        ),
-                        itemBuilder: (context, index) {
-                          return BookAndName(
-                            tap: () {
-                              Get.to(() => InsideBook(item: search.dt![index]));
-                            },
-                            image: search.dt![index].img!,
-                            name: search.dt![index].title!,
-                            amount: "₹${search.dt![index].price!.toString()}",
-                          );
-                        },
+              child: FutureBuilder<ProductsModel>(
+                  future: controller.searchApi(),
+                  builder: (context, snapshot) {
+                    if (snapshot.connectionState == ConnectionState.waiting) {
+                      return const Center(
+                        child: CircularProgressIndicator(),
                       );
-                    }),
-              ),
+                    }
+                    else if(snapshot.connectionState == ConnectionState.none){
+                      return const Text("No books found");
+                    }
+                  ProductsModel   search = snapshot.data!;
+                    
+                    return GridView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: search.dt!.length,
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: 2, 
+                        mainAxisSpacing: 0.h,
+                        crossAxisSpacing: 5.w,
+                        childAspectRatio: 150 / 250,
+                      ),
+                      itemBuilder: (context, index) {
+                        return BookAndName(
+                          tap: () {
+                            Get.to(() => InsideBook(item: search.dt![index]));
+                          },
+                          image: search.dt![index].img!,
+                          name: search.dt![index].title!,
+                          amount: "₹${search.dt![index].price!.toString()}",
+                        );
+                      },
+                    );
+                  }),
             )
           ],
         ),

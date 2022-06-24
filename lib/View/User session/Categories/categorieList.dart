@@ -6,12 +6,16 @@ import 'package:readerclub/View/User%20session/Categories/Categories.dart';
 import 'package:readerclub/api/Categories.dart';
 import 'package:sizer/sizer.dart';
 
+import '../../../Controller/HomeScreeenController.dart';
+
 class CategoriesList extends StatelessWidget {
   CategoriesList({Key? key}) : super(key: key);
   late String categoryName;
 
   @override
   Widget build(BuildContext context) {
+            HomeScreenController controller = Get.put(HomeScreenController());
+
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
@@ -23,7 +27,7 @@ class CategoriesList extends StatelessWidget {
           Lottie.asset("Assets/category.json"),
           Expanded(
               child: FutureBuilder<CategoriesModel>(
-            future: categoriesApi(),
+            future: controller.categoriesApi(),
             builder: (context, AsyncSnapshot<CategoriesModel> snapshot) {
               if (snapshot.connectionState == ConnectionState.waiting) {
                 return const Center(
@@ -34,8 +38,7 @@ class CategoriesList extends StatelessWidget {
               CategoriesModel list = snapshot.data!;
 
               return ListView.separated(
-
-                padding: EdgeInsets.only(top: 3.h,bottom: 3.h),
+                  padding: EdgeInsets.only(top: 3.h, bottom: 3.h),
                   separatorBuilder: (context, index) => SizedBox(height: 4.h),
                   itemCount: list.dt!.length,
                   itemBuilder: ((context, index) {
@@ -45,7 +48,9 @@ class CategoriesList extends StatelessWidget {
 
                     return CategoryList(
                       name: categoryName,
-                      tap: () => Get.to( CategoriesPage( value: list.dt![index],)),
+                      tap: () => Get.to(CategoriesPage(
+                        value: list.dt![index],
+                      )),
                     );
                   }));
             },

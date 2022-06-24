@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:readerclub/View/User%20session/Categories/categorieList.dart';
+import 'package:readerclub/View/User%20session/My%20Account/account.dart';
+import 'package:readerclub/View/User%20session/Offers/Offers.dart';
 
 import 'package:readerclub/main.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -29,31 +31,34 @@ class SideDrawer extends StatelessWidget {
           // shrinkWrap: true,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            SizedBox(
-              height: 30.h,
-              child: DrawerHeader(
-                margin: EdgeInsets.only(bottom: 2.h),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    CircleAvatar(
-                      radius: 10.w,
-                      backgroundColor: Colors.red,
-                      backgroundImage: const NetworkImage(
-                          "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NDZ8fHVzZXJ8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60"),
-                    ),
-                    SizedBox(
-                      height: 1.h,
-                    ),
-                    Text(
-                      userDetails["user"]["name"],
-                      style: TextStyle(
-                          color: Colors.black,
-                          fontSize: 22.sp,
-                          fontWeight: FontWeight.w900),
-                    ),
-                  ],
+            GestureDetector(
+              onTap: () => Get.to(AccountPage(),transition: Transition.cupertinoDialog),
+              child: SizedBox(
+                height: 30.h,
+                child: DrawerHeader(
+                  margin: EdgeInsets.only(bottom: 2.h),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CircleAvatar(
+                        radius: 10.w,
+                        backgroundColor: Colors.red,
+                        backgroundImage: const NetworkImage(
+                            "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NDZ8fHVzZXJ8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60"),
+                      ),
+                      SizedBox(
+                        height: 1.h,
+                      ),
+                      Text(
+                        userDetails["user"]["name"],
+                        style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 22.sp,
+                            fontWeight: FontWeight.w900),
+                      ),
+                    ],
+                  ),
                 ),
               ),
             ),
@@ -88,7 +93,7 @@ class SideDrawer extends StatelessWidget {
                 'Offers',
                 style: TextStyle(fontSize: 13.sp, fontWeight: FontWeight.bold),
               ),
-              onTap: () => {Navigator.push(context, PageTransition(child: const ErrorPage(), type: PageTransitionType.fade))},
+              onTap: () => {Navigator.push(context, PageTransition(child: const OfferPage(), type: PageTransitionType.fade))},
             ),
             ListTile(
               leading: const Icon(

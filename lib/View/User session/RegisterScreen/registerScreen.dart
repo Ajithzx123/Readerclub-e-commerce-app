@@ -1,19 +1,13 @@
-import 'dart:convert';
 
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:readerclub/Controller/RegisterController.dart';
-import 'package:readerclub/Controller/loginController.dart';
 
 import 'package:readerclub/View/User%20session/RegisterScreen/widget/widgets.dart';
-import 'package:readerclub/main.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:sizer/sizer.dart';
-import 'package:http/http.dart' as http;
 
-import '../../User session/home screen/homescreen.dart';
+import 'package:sizer/sizer.dart';
+
 
 class RegisterScreen extends StatelessWidget {
   RegisterScreen({Key? key}) : super(key: key);
@@ -188,6 +182,7 @@ class RegisterScreen extends StatelessWidget {
                                   child: FadeInLeft(
                                     child: SizedBox(
                                       height: 10.h,
+                                      
                                       child: Center(
                                         child: GestureDetector(
                                           onTap: () {

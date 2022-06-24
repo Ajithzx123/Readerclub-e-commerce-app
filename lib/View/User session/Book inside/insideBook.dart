@@ -56,10 +56,13 @@ class InsideBook extends StatelessWidget {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                             item.title!,
-                              style: TextStyle(
-                                  fontSize: 30.sp, fontWeight: FontWeight.w900),
+                            Flexible(
+                              child: Text(
+                               item.title!,
+                              //  overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                    fontSize: 30.sp, fontWeight: FontWeight.w900),
+                              ),
                             ),
                             Icon(
                               Icons.favorite_border,

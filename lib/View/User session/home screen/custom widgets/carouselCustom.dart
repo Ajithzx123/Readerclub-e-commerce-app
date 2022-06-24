@@ -1,18 +1,22 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:readerclub/Model/OfferBanner.dart';
 import 'package:readerclub/api/banner.dart';
 import 'package:sizer/sizer.dart';
+
+import '../../../../Controller/HomeScreeenController.dart';
 
 class Carousel extends StatelessWidget {
   const Carousel({
     Key? key,
   }) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
+            HomeScreenController controller = Get.put(HomeScreenController());
+
     return FutureBuilder<OfferBanner>(
-        future: offerBannerApi(),
+        future: controller.offerBannerApi(),
         builder: (context, AsyncSnapshot<OfferBanner> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             return const Center(
@@ -23,31 +27,20 @@ class Carousel extends StatelessWidget {
           OfferBanner offerBanner = snapshot.data!;
 
           return CarouselSlider(
-              items: 
-                List.generate(
-                  offerBanner.dt!.length,
-                  (index) {
-                    String bannerTitle = offerBanner.dt![index].title!;
-                    String offerDescription =
-                        offerBanner.dt![index].offerDescription!;
+              items: List.generate(
+                offerBanner.dt!.length,
+                (index) {
+                  String bannerTitle = offerBanner.dt![index].title!;
+                  String offer = offerBanner.dt![index].img!;
+                  String offerDescription =
+                      offerBanner.dt![index].offerDescription!;
 
-                    return Container(
-                      width: 100.w,
-                      height: 15.h,
-                      decoration: BoxDecoration(
-                        color: Colors.grey,
-                        borderRadius: BorderRadius.circular(20),
-                        image: DecorationImage(
-                            image: NetworkImage(offerBanner.dt![index].img!),
-                            fit: BoxFit.cover),
-                      ),
-                      child:  OfferTexts(
-                        offer: offerDescription,
-                        title: bannerTitle,
-                      ),
-                    );
-                  },
-                ),
+                  return CustomOffer(
+                      image: offer,
+                      offerDescription: offerDescription,
+                      bannerTitle: bannerTitle);
+                },
+              ),
               options: CarouselOptions(
                   initialPage: 0,
                   autoPlay: true,
@@ -59,6 +52,40 @@ class Carousel extends StatelessWidget {
                   enlargeCenterPage: true,
                   enlargeStrategy: CenterPageEnlargeStrategy.scale));
         });
+  }
+}
+
+class CustomOffer extends StatelessWidget {
+  
+
+  const CustomOffer({
+    Key? key,
+    required this.image,
+    required this.offerDescription,
+    required this.bannerTitle,
+  }) : super(key: key);
+
+  final String image;
+  final String offerDescription;
+  final String bannerTitle;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      width: 100.w,
+      height: 15.h,
+      decoration: BoxDecoration(
+        color: Colors.grey,
+        borderRadius: BorderRadius.circular(20),
+        image: DecorationImage(
+            image: NetworkImage(image),
+            fit: BoxFit.cover),
+      ),
+      child: OfferTexts(
+        offer: offerDescription,
+        title: bannerTitle,
+      ),
+    );
   }
 }
 
@@ -129,5 +156,3 @@ class OfferTexts extends StatelessWidget {
     );
   }
 }
-
-

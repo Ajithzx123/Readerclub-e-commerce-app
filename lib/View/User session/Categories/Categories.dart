@@ -5,6 +5,7 @@ import 'package:readerclub/Model/Categories.dart';
 
 import 'package:sizer/sizer.dart';
 
+import '../../../Controller/HomeScreeenController.dart';
 import '../../../Model/productModel.dart';
 import '../../../api/Products.dart';
 import '../../widgets/BookCustom.dart';
@@ -16,6 +17,8 @@ class CategoriesPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+            HomeScreenController controller = Get.put(HomeScreenController());
+
     return Scaffold(
       body: SafeArea(
           child: Column(
@@ -63,46 +66,38 @@ class CategoriesPage extends StatelessWidget {
           ),
           Expanded(
             child: SingleChildScrollView(
-              child: FutureBuilder<ProductsModel>(
-                              builder: (context,
-                                  AsyncSnapshot<ProductsModel> snapshot) {
-                                if (snapshot.connectionState ==
-                                    ConnectionState.waiting) {
-                                  return const Center(
-                                    child: CircularProgressIndicator(),
-                                  );
-                                }
-                                ProductsModel productsL = snapshot.data!;
+                child: FutureBuilder<ProductsModel>(
+              builder: (context, AsyncSnapshot<ProductsModel> snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                ProductsModel productsL = snapshot.data!;
 
-                                return GridView.builder(
-                                  shrinkWrap: true,
-                                  itemCount: productsL.dt!.length,
-                                  gridDelegate:
-                                    const  SliverGridDelegateWithFixedCrossAxisCount(
-                                    crossAxisCount: 2,
-                                    // mainAxisSpacing: ,
-                                    // crossAxisSpacing: 2.w,
-                                    childAspectRatio: 150 / 200,
-                                  ),
-                                  itemBuilder: (context, index) {
-
-                                    return BookAndName(
-                                      tap: () {
-                                        Get.to(() => InsideBook(
-                                            item: productsL.dt![index]));
-                                      },
-                                      image: productsL.dt![index].img!,
-                                      name: productsL.dt![index].title!,
-                                      amount:
-                                          "₹${productsL.dt![index].price!.toString()}",
-                                    );
-                                  },
-                                );
-                              },
-                              future: productsApi(
-                                  value.category!),
-                            )
-            ),
+                return GridView.builder(
+                  shrinkWrap: true,
+                  itemCount: productsL.dt!.length,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    // mainAxisSpacing: ,
+                    // crossAxisSpacing: 2.w,
+                    childAspectRatio: 150 / 200,
+                  ),
+                  itemBuilder: (context, index) {
+                    return BookAndName(
+                      tap: () {
+                        Get.to(() => InsideBook(item: productsL.dt![index]));
+                      },
+                      image: productsL.dt![index].img!,
+                      name: productsL.dt![index].title!,
+                      amount: "₹${productsL.dt![index].price!.toString()}",
+                    );
+                  },
+                );
+              },
+              future: controller. productsApi(value.category!),
+            )),
           ),
         ],
       )),

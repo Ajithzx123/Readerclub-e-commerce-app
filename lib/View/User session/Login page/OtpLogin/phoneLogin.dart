@@ -1,17 +1,15 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:lottie/lottie.dart';
-import 'package:page_transition/page_transition.dart';
+import 'package:readerclub/Controller/loginController.dart';
 
 import 'package:sizer/sizer.dart';
 
 import '../widget/widgets.dart';
-import 'OtpPage.dart';
 
 class PhoneLogin extends StatelessWidget {
   PhoneLogin({Key? key}) : super(key: key);
-
-  TextEditingController phonecontroller = TextEditingController();
 
   final formKey = GlobalKey<FormState>();
 
@@ -30,126 +28,80 @@ class PhoneLogin extends StatelessWidget {
               children: [
             Padding(
               padding: EdgeInsets.all(2.w),
-              child: Form(
-                key: formKey,
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: EdgeInsets.only(left: 8.w, right: 8.w),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Lottie.asset(
-                            "Assets/login/phone otp page/otp.json",
-                            height: 40.h,
-                            alignment: Alignment.centerLeft,
-                            addRepaintBoundary: false,
+              child: GetBuilder<LoginController>(
+                builder: (controller) {
+                  return Form(
+                    key: formKey,
+                    child: Column(
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(left: 8.w, right: 8.w),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Lottie.asset(
+                                "Assets/login/phone otp page/otp.json",
+                                height: 40.h,
+                                alignment: Alignment.centerLeft,
+                                addRepaintBoundary: false,
+                              ),
+                              Text(
+                                "Enter Your Phone Number",
+                                style: TextStyle(
+                                    fontSize: 23.sp,
+                                    fontWeight: FontWeight.bold),
+                              ),
+                              SizedBox(
+                                height: 1.5.h,
+                              ),
+                              Text(
+                                "You'll recieve a 4-digit  code for the  Phone Number verification",
+                                style: TextStyle(
+                                    fontSize: 13.sp,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                              SizedBox(
+                                height: 7.h,
+                              ),
+                              CustomTextformfield(
+                                controller: controller.phcontroller,
+                                validator: ((numbervalue) {
+                                  if (numbervalue.length != 10) {
+                                    return 'Mobile Number must be of 10 digit';
+                                  }
+                                  return null;
+                                }),
+                              ),
+                              SizedBox(
+                                height: 2.h,
+                              ),
+                              controller.isloading == true
+                                  ? const Center(
+                                      child: CircularProgressIndicator())
+                                  : Center(child: _RegisterButton(
+                                      ontap: () {
+                                        if (formKey.currentState!.validate()) {
+                                          controller.phoneVerification();
+                                        }
+                                      },
+                                    )),
+                              SizedBox(
+                                height: 12.h,
+                              ),
+                              const RegisterDontHaveAccount()
+                            ],
                           ),
-                          Text(
-                            "Enter Your Phone Number",
-                            style: TextStyle(
-                                fontSize: 23.sp, fontWeight: FontWeight.bold),
-                          ),
-                          SizedBox(
-                            height: 1.5.h,
-                          ),
-                          Text(
-                            "You'll recieve a 4-digit  code for the  Phone Number verification",
-                            style: TextStyle(
-                                fontSize: 13.sp, fontWeight: FontWeight.w600),
-                          ),
-                          SizedBox(
-                            height: 7.h,
-                          ),
-                          CustomTextformfield(
-                            controller: phonecontroller,
-                            validator: ((numbervalue) {
-                              if (numbervalue.length != 10) {
-                                return 'Mobile Number must be of 10 digit';
-                              }
-                              return null;
-                            }),
-                          ),
-                          SizedBox(
-                            height: 2.h,
-                          ),
-                          Center(
-                            child:
-                               
-                                   _RegisterButton(
-                                    ontap: () {
-                                      if (formKey.currentState!.validate()) {
-                                  
-                                        phoneVerification(context);
-                                      }
-                                    },
-                                  )
-                                
-                              
-                            
-                          ),
-                          SizedBox(
-                            height: 12.h,
-                          ),
-                          const RegisterDontHaveAccount()
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                  ],
-                ),
+                  );
+                },
               ),
             ),
           ])),
     );
   }
-
-  Future phoneVerification(BuildContext context) async {
-    Dio dio = Dio();
-    var apiData = ("https://readerclub.store/api/auth/otplogin");
-
-    Map mapDatas = {
-      "mobile": phonecontroller.text,
-    };
-    try {
-      final Response response = await dio.post(apiData, data: mapDatas);
-      print(response.data);
-
-      if (response.statusCode == 200) {
-        // context
-        //     .read<LoadingblocBloc>()
-        //     .add(CircularLoadingEvent(isLoading: false));
-
-        Navigator.push(
-            context,
-            PageTransition(
-                child: OtpPage(phcontroller: phonecontroller),
-                type: PageTransitionType.fade));
-      } else {
-        throw DioError;
-      }
-    } catch (e) {
-      if (e is DioError) {
-        // context
-        //     .read<LoadingblocBloc>()
-        //     .add(CircularLoadingEvent(isLoading: false));
-        print(e.response!.data.toString());
-        ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-          duration: const Duration(seconds: 2),
-          behavior: SnackBarBehavior.floating,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
-          content: Text(
-            e.response!.data["msg"].toString(),
-            style: TextStyle(
-                fontFamily: "poppinz",
-                fontSize: 12.sp,
-                fontWeight: FontWeight.bold),
-          ),
-          backgroundColor: const Color.fromARGB(255, 141, 8, 8),
-        ));
-      }
-    }
-  }
+}
 
 //   Future phoneVerification(BuildContext context) async {
 //     var apiUrl = Uri.parse("https://readerclub.store/api/auth/otplogin");
@@ -174,7 +126,6 @@ class PhoneLogin extends StatelessWidget {
 //       print("No phone number");
 //     }
 //   }
-}
 
 class _RegisterButton extends StatelessWidget {
   final VoidCallback ontap;
