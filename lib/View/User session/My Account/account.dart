@@ -43,100 +43,101 @@ class AccountPage extends StatelessWidget {
                 width: 100.w,
                 child: Padding(
                   padding: EdgeInsets.all(9.w),
-                  child: SingleChildScrollView(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("Ajith kumar",
+                              style: TextStyle(
+                                  fontSize: 25.sp,
+                                  fontWeight: FontWeight.bold)),
+                          GestureDetector(child: const Icon(Icons.edit))
+                        ],
+                      ),
+                      SizedBox(
+                        height: 3.h,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 3.w),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Text("Ajith kumar",
-                                style: TextStyle(
-                                    fontSize: 25.sp,
-                                    fontWeight: FontWeight.bold)),
-                            GestureDetector(child: const Icon(Icons.edit))
+                            Text(
+                              "Male",
+                              style: TextStyle(
+                                  fontSize: 15.sp, fontWeight: FontWeight.w600),
+                            ),
+                            SizedBox(
+                              height: 1.h,
+                            ),
+                            Text(
+                              "17-02-2000",
+                              style: TextStyle(
+                                  fontSize: 15.sp, fontWeight: FontWeight.w600),
+                            ),
+                            SizedBox(
+                              height: 1.h,
+                            ),
+                            Text(
+                              "Kumarajith577@gmail.com",
+                              style: TextStyle(
+                                  fontSize: 15.sp, fontWeight: FontWeight.w600),
+                            ),
+                            SizedBox(
+                              height: 1.h,
+                            ),
+                            Text(
+                              "9747767979",
+                              style: TextStyle(
+                                  fontSize: 15.sp, fontWeight: FontWeight.w600),
+                            ),
+                            SizedBox(
+                              height: 3.h,
+                            ),
                           ],
                         ),
-                        SizedBox(
-                          height: 3.h,
-                        ),
-                        Padding(
-                          padding: EdgeInsets.only(left: 3.w),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                "Male",
-                                style: TextStyle(
-                                    fontSize: 15.sp,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                              SizedBox(
-                                height: 1.h,
-                              ),
-                              Text(
-                                "17-02-2000",
-                                style: TextStyle(
-                                    fontSize: 15.sp,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                              SizedBox(
-                                height: 1.h,
-                              ),
-                              Text(
-                                "Kumarajith577@gmail.com",
-                                style: TextStyle(
-                                    fontSize: 15.sp,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                              SizedBox(
-                                height: 1.h,
-                              ),
-                              Text(
-                                "9747767979",
-                                style: TextStyle(
-                                    fontSize: 15.sp,
-                                    fontWeight: FontWeight.w600),
-                              ),
-                              SizedBox(
-                                height: 3.h,
-                              ),
-                            ],
-                          ),
-                        ),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text("Address",
-                                style: TextStyle(
-                                    fontSize: 25.sp,
-                                    fontWeight: FontWeight.bold)),
-                            GestureDetector(
-                                onTap: () {
-                                  print("sffdfdfdfdsfdfdf");
-                                  Get.to(() => AddressEdit());
-                                },
-                                child: const Icon(Icons.edit))
-                          ],
-                        ),
-                        SizedBox(
-                          height: 3.h,
-                        ),
-                        const Addresscutom(),
-                        SizedBox(
-                          height: 2.h,
-                        ),
-                        const Addresscutom(),
-                        SizedBox(
-                          height: 2.h,
-                        ),
-                        const Addresscutom(),
-                        SizedBox(
-                          height: 3.h,
-                        ),
-                        Center(child: ButtonBlue(ontap: () {}, title: "Logout"))
-                      ],
-                    ),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text("Address",
+                              style: TextStyle(
+                                  fontSize: 25.sp,
+                                  fontWeight: FontWeight.bold)),
+                          GestureDetector(
+                              onTap: () {
+                                print("sffdfdfdfdsfdfdf");
+                                Get.to(() => AddressEdit());
+                              },
+                              child: const Icon(Icons.edit))
+                        ],
+                      ),
+                      // SizedBox(
+                      //   height: 3.h,
+                      // ),
+                      ListView.builder(
+                        shrinkWrap: true,
+                        itemCount: 2,
+                        itemBuilder: (context, index) {
+                          return Addresscutom();
+                        },
+                      ),
+                      // const Addresscutom(),
+                      // SizedBox(
+                      //   height: 2.h,
+                      // ),
+                      // const Addresscutom(),
+                      // SizedBox(
+                      //   height: 2.h,
+                      // ),
+                      // const Addresscutom(),
+                      SizedBox(
+                        height: 3.h,
+                      ),
+                      Center(child: ButtonBlue(ontap: () {}, title: "Logout"))
+                    ],
                   ),
                 ),
               ),
@@ -155,28 +156,27 @@ class Addresscutom extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Slidable(
+        enabled: true,
+        direction: Axis.horizontal,
         key: const ValueKey(1),
         endActionPane: ActionPane(
             motion: ScrollMotion(),
-            dismissible: DismissiblePane(onDismissed: (){}),
-            children: [SlidableAction(onPressed: ((context) {}
-            
-            ),
-            backgroundColor: Colors.red,
-            foregroundColor: Colors.white,
-            icon: Icons.archive,
-
-            ),
-            SlidableAction(onPressed: ((context) {
-              
-            }),
-            backgroundColor: Colors.blue,
-            foregroundColor: Colors.white,
-            icon: Icons.save,
-            label: "save",
-            
-            
-            )]),
+            dismissible: DismissiblePane(onDismissed: () {}),
+            children: [
+              SlidableAction(
+                onPressed: ((context) {}),
+                backgroundColor: Colors.red,
+                foregroundColor: Colors.white,
+                icon: Icons.archive,
+              ),
+              SlidableAction(
+                onPressed: ((context) {}),
+                backgroundColor: Colors.blue,
+                foregroundColor: Colors.white,
+                icon: Icons.save,
+                label: "save",
+              )
+            ]),
         child: Container(
           decoration: BoxDecoration(
               color: Color.fromARGB(255, 222, 222, 222),

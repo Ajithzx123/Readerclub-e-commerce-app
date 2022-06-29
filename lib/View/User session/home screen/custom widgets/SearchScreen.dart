@@ -7,12 +7,19 @@ import '../../../../Controller/HomeScreeenController.dart';
 import '../../../widgets/BookCustom.dart';
 import '../../Book inside/insideBook.dart';
 
-class SearchScreen extends StatelessWidget {
+class SearchScreen extends StatefulWidget {
   SearchScreen({Key? key}) : super(key: key);
-  final searchController = TextEditingController();
+
+  @override
+  State<SearchScreen> createState() => _SearchScreenState();
+}
+
+class _SearchScreenState extends State<SearchScreen> {
+  String searchInput = '';
+
   @override
   Widget build(BuildContext context) {
-            HomeScreenController controller = Get.put(HomeScreenController());
+    HomeScreenController controller = Get.put(HomeScreenController());
 
     return Scaffold(
       resizeToAvoidBottomInset: true,
@@ -35,7 +42,12 @@ class SearchScreen extends StatelessWidget {
               child: Padding(
                 padding: EdgeInsets.only(left: 3.w),
                 child: TextFormField(
-                  controller: searchController,
+                  onChanged: (value) {
+                  setState(() {
+                    searchInput = value;
+                  });
+                    
+                  },
                   cursorColor: Colors.black,
                   decoration: const InputDecoration(
                     border: InputBorder.none,
@@ -46,7 +58,9 @@ class SearchScreen extends StatelessWidget {
                 ),
               ),
             ),
-            SizedBox(height: 5.h,),
+            SizedBox(
+              height: 5.h,
+            ),
             SingleChildScrollView(
               child: FutureBuilder<ProductsModel>(
                   future: controller.searchApi(),
@@ -55,18 +69,26 @@ class SearchScreen extends StatelessWidget {
                       return const Center(
                         child: CircularProgressIndicator(),
                       );
-                    }
-                    else if(snapshot.connectionState == ConnectionState.none){
+                    } else if (snapshot.connectionState ==
+                        ConnectionState.none) {
                       return const Text("No books found");
                     }
-                  ProductsModel   search = snapshot.data!;
-                    
-                    return GridView.builder(
+                    ProductsModel search = snapshot.data!;
+                    final booksList = search.dt;
+                    List<Details> searchResultList = booksList!
+                        .where((element) => element.title!
+                            .toLowerCase()
+                            .contains(searchInput.toLowerCase()))
+                        .toList();
+                    return 
+                    searchResultList.isNotEmpty ?
+
+                     GridView.builder(
                       physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
-                      itemCount: search.dt!.length,
+                      itemCount: searchResultList.length,
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2, 
+                        crossAxisCount: 2,
                         mainAxisSpacing: 0.h,
                         crossAxisSpacing: 5.w,
                         childAspectRatio: 150 / 250,
@@ -74,14 +96,14 @@ class SearchScreen extends StatelessWidget {
                       itemBuilder: (context, index) {
                         return BookAndName(
                           tap: () {
-                            Get.to(() => InsideBook(item: search.dt![index]));
+                            Get.to(() => InsideBook(item: searchResultList[index]));
                           },
-                          image: search.dt![index].img!,
-                          name: search.dt![index].title!,
-                          amount: "₹${search.dt![index].price!.toString()}",
+                          image: searchResultList[index].img!,
+                          name: searchResultList[index].title!,
+                          amount: "₹${searchResultList[index].price!.toString()}",
                         );
                       },
-                    );
+                    ) : CircularProgressIndicator();
                   }),
             )
           ],
