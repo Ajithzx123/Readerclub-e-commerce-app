@@ -1,87 +1,71 @@
+class UserDetails {
+  List<Dt>? dt;
 
+  UserDetails({this.dt});
 
-// import 'dart:convert';
+  UserDetails.fromJson(Map<String, dynamic> json) {
+    if (json['dt'] != null) {
+      dt = <Dt>[];
+      json['dt'].forEach((v) {
+        dt!.add(new Dt.fromJson(v));
+      });
+    }
+  }
 
-// UserDetails UserDetailsFromJson(json) => UserDetails.fromJson(json);
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (this.dt != null) {
+      data['dt'] = this.dt!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
 
-// String UserDetailsToJson(UserDetails data) => json.encode(data.toJson());
+class Dt {
+  String? sId;
+  String? userId;
+  String? gender;
+  String? proffession;
+  String? dob;
+  String? image;
+  String? createdAt;
+  String? updatedAt;
+  int? iV;
 
-// class UserDetails {
-//     UserDetails({
-//         this.user,
-//         this.accessToken,
-//     });
+  Dt(
+      {this.sId,
+      this.userId,
+      this.gender,
+      this.proffession,
+      this.dob,
+      this.image,
+      this.createdAt,
+      this.updatedAt,
+      this.iV});
 
-//     User? user;
-//     String? accessToken;
+  Dt.fromJson(Map<String, dynamic> json) {
+    sId = json['_id'];
+    userId = json['userId'];
+    gender = json['gender'];
+    proffession = json['proffession'];
+    dob = json['dob'];
+    image = json['image'];
+    createdAt = json['createdAt'];
+    updatedAt = json['updatedAt'];
+    iV = json['__v'];
+  }
 
-//     factory UserDetails.fromJson(Map<String, dynamic> json) => UserDetails(
-//         user: User.fromJson(json["user"]),
-//         accessToken: json["accessToken"],
-//     );
-
-//     Map<String, dynamic> toJson() => {
-//         "user": user!.toJson(),
-//         "accessToken": accessToken,
-//     };
-// }
-
-// class User {
-//     User({
-//         this.id,
-//         this.username,
-//         this.name,
-//         this.email,
-//        this.mobile,
-//         this.password,
-//         this.wallet,
-//         this.isAdmin,
-//        this.status,
-//         this.createdAt,
-//         this.updatedAt,
-//         this.v,
-//     });
-
-//     String? id;
-//     String? username;
-//     String? name;
-//     String? email;
-//     String? mobile;
-//     String? password;
-//     String? wallet;
-//     String? isAdmin;
-//     String? status;
-//     DateTime? createdAt;
-//     DateTime? updatedAt;
-//     String? v;
-
-//     factory User.fromJson(Map<String, dynamic> json) => User(
-//         id: json["_id"],
-//         username: json["username"],
-//         name: json["name"],
-//         email: json["email"],
-//         mobile: json["mobile"],
-//         password: json["password"],
-//         wallet: json["wallet"],
-//         isAdmin: json["isAdmin"],
-//         status: json["status"],
-//         createdAt: DateTime.parse(json["createdAt"]),
-//         updatedAt: DateTime.parse(json["updatedAt"]),
-//         v: json["__v"],
-//     );
-
-//     Map<String, dynamic> toJson() => {
-//         "_id": id,
-//         "username": username,
-//         "name": name,
-//         "email": email,
-//         "mobile": mobile,
-//         "password": password,
-//         "wallet": wallet,
-//         "isAdmin": isAdmin,
-//         "status": status,
-//         "createdAt": createdAt!.toIso8601String(),
-//         "updatedAt": updatedAt!.toIso8601String(),
-//         "__v": v,
-//     };
-// }
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['_id'] = this.sId;
+    data['userId'] = this.userId;
+    data['gender'] = this.gender;
+    data['proffession'] = this.proffession;
+    data['dob'] = this.dob;
+    data['image'] = this.image;
+    data['createdAt'] = this.createdAt;
+    data['updatedAt'] = this.updatedAt;
+    data['__v'] = this.iV;
+    return data;
+  }
+}

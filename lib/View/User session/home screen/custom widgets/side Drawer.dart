@@ -15,14 +15,23 @@ import '../../../widgets/AlertdialogueCustom.dart';
 import '../../../widgets/error.dart';
 import '../../WishList/wishlist.dart';
 
-class SideDrawer extends StatelessWidget {
-   SideDrawer({Key? key}) : super(key: key);
-  
-    var  userDetails = SharedPrefrenceModel.getString('userDetails');
+class SideDrawer extends StatefulWidget {
+  SideDrawer({Key? key}) : super(key: key);
 
+  @override
+  State<SideDrawer> createState() => _SideDrawerState();
+}
+
+class _SideDrawerState extends State<SideDrawer> {
+  
+  var userDetails = SharedPrefrenceModel.getString('userDetails');
+
+  var details = SharedPrefrenceModel.getString('details');
 
   @override
   Widget build(BuildContext context) {
+    // UserController controller = Get.put(UserController());
+    // print(userDetails["accessToken"]);
     return Drawer(
       child: Padding(
         padding: const EdgeInsets.all(8.0),
@@ -32,7 +41,9 @@ class SideDrawer extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             GestureDetector(
-              onTap: () => Get.to(AccountPage(),transition: Transition.cupertinoDialog),
+              onTap: () {
+                // controller.userApi();
+                  Get.to(AccountPage(), transition: Transition.cupertinoDialog);},
               child: SizedBox(
                 height: 30.h,
                 child: DrawerHeader(
@@ -44,14 +55,15 @@ class SideDrawer extends StatelessWidget {
                       CircleAvatar(
                         radius: 10.w,
                         backgroundColor: Colors.red,
-                        backgroundImage: const NetworkImage(
-                            "https://images.unsplash.com/photo-1492562080023-ab3db95bfbce?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NDZ8fHVzZXJ8ZW58MHx8MHx8&auto=format&fit=crop&w=500&q=60"),
+                        backgroundImage:  NetworkImage(details["dt"][0]["image"]
+                            ),
                       ),
                       SizedBox(
                         height: 1.h,
                       ),
                       Text(
                         userDetails["user"]["name"],
+                       
                         style: TextStyle(
                             color: Colors.black,
                             fontSize: 22.sp,
@@ -71,7 +83,7 @@ class SideDrawer extends StatelessWidget {
                 'Categories',
                 style: TextStyle(fontSize: 13.sp, fontWeight: FontWeight.bold),
               ),
-              onTap: () => Get.to(  CategoriesList()),
+              onTap: () => Get.to(CategoriesList()),
             ),
             ListTile(
               leading: const Icon(
@@ -82,7 +94,12 @@ class SideDrawer extends StatelessWidget {
                 'Whishlist',
                 style: TextStyle(fontSize: 13.sp, fontWeight: FontWeight.bold),
               ),
-              onTap: () => {Navigator.push(context, PageTransition(child: WishLists(), type: PageTransitionType.fade))},
+              onTap: () => {
+                Navigator.push(
+                    context,
+                    PageTransition(
+                        child: WishLists(), type: PageTransitionType.fade))
+              },
             ),
             ListTile(
               leading: const Icon(
@@ -93,7 +110,13 @@ class SideDrawer extends StatelessWidget {
                 'Offers',
                 style: TextStyle(fontSize: 13.sp, fontWeight: FontWeight.bold),
               ),
-              onTap: () => {Navigator.push(context, PageTransition(child: const OfferPage(), type: PageTransitionType.fade))},
+              onTap: () => {
+                Navigator.push(
+                    context,
+                    PageTransition(
+                        child: const OfferPage(),
+                        type: PageTransitionType.fade))
+              },
             ),
             ListTile(
               leading: const Icon(
@@ -104,7 +127,13 @@ class SideDrawer extends StatelessWidget {
                 'My cart',
                 style: TextStyle(fontSize: 13.sp, fontWeight: FontWeight.bold),
               ),
-              onTap: () => {Navigator.push(context, PageTransition(child: const ErrorPage(), type: PageTransitionType.fade))},
+              onTap: () => {
+                Navigator.push(
+                    context,
+                    PageTransition(
+                        child: const ErrorPage(),
+                        type: PageTransitionType.fade))
+              },
             ),
             ListTile(
               leading: const Icon(
@@ -115,7 +144,13 @@ class SideDrawer extends StatelessWidget {
                 'About',
                 style: TextStyle(fontSize: 13.sp, fontWeight: FontWeight.bold),
               ),
-              onTap: () => {Navigator.push(context, PageTransition(child: const ErrorPage(), type: PageTransitionType.fade))},
+              onTap: () => {
+                Navigator.push(
+                    context,
+                    PageTransition(
+                        child: const ErrorPage(),
+                        type: PageTransitionType.fade))
+              },
             ),
             Spacer(),
             ListTile(
@@ -128,16 +163,21 @@ class SideDrawer extends StatelessWidget {
                 style: TextStyle(fontSize: 13.sp, fontWeight: FontWeight.bold),
               ),
               onTap: () => {
-                
                 showDialog(
                     context: context,
                     builder: (BuildContext context) {
-                      return AlertPopUp(title: "Logout", description: "Do you want to Logout", leftontap: (){
-                sharedprefLogout(context);
-
-                      }, leftButton: "Yes", rightbutton: "No", rightontap: () { 
-                        Navigator.of(context).pop();
-                       },);
+                      return AlertPopUp(
+                        title: "Logout",
+                        description: "Do you want to Logout",
+                        leftontap: () {
+                          sharedprefLogout(context);
+                        },
+                        leftButton: "Yes",
+                        rightbutton: "No",
+                        rightontap: () {
+                          Navigator.of(context).pop();
+                        },
+                      );
                     })
               },
             ),

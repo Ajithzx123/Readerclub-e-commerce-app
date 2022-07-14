@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "885102920417",
+    "project_id": "readerclub-29cf5",
+    "storage_bucket": "readerclub-29cf5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:885102920417:android:4700955f39a16f313eada0",
+        "android_client_info": {
+          "package_name": "com.example.readerclub"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "885102920417-4gvhmptk8ltlinoqnbeptmavml6jenmi.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCWZw-jXkZgyzb57JdtXzOEpIpypiqgwnA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "885102920417-4gvhmptk8ltlinoqnbeptmavml6jenmi.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

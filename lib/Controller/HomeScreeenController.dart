@@ -1,11 +1,9 @@
 import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:readerclub/Model/Categories.dart';
 import 'package:readerclub/Model/OfferBanner.dart';
 import 'package:readerclub/Model/productModel.dart';
-import 'package:readerclub/View/User%20session/home%20screen/custom%20widgets/SearchScreen.dart';
 
 class HomeScreenController extends GetxController{
  String ?searchInput;
@@ -15,6 +13,7 @@ class HomeScreenController extends GetxController{
   searchInput = "";
   update();
  } 
+
   Future<OfferBanner> offerBannerApi() async {
   Dio dio = Dio();
   var apiUrl = ("https://readerclub.store/api/banner");
@@ -58,5 +57,7 @@ Future<ProductsModel> searchApi() async {
   
   return products;
 }
+
+
 
 }

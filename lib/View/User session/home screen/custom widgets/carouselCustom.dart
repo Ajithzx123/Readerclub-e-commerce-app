@@ -2,7 +2,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:readerclub/Model/OfferBanner.dart';
-import 'package:readerclub/api/banner.dart';
+import 'package:readerclub/api/request.dart';
 import 'package:sizer/sizer.dart';
 
 import '../../../../Controller/HomeScreeenController.dart';
